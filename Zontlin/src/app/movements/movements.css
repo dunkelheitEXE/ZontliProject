@@ -1,0 +1,208 @@
+:root {
+  --bg: #ffffff;
+  --text: #111827;
+  /* gray-900 */
+  --muted: #6b7280;
+  /* gray-500 */
+  --border: #e5e7eb;
+  /* gray-200 */
+  --primary: #0b5fff;
+  /* azul Movements */
+  --primary-hover: #0a4ee6;
+  --tile: #e5e7eb;
+  /* cuadrito del ícono */
+  --tile-icon: #111827;
+  --shadow: 0 1px 2px rgba(0, 0, 0, .06), 0 1px 3px rgba(0, 0, 0, .08);
+  --radius: 12px;
+  --pad: 14px 16px;
+  --container: 980px;
+}
+
+* {
+  box-sizing: border-box
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 16px/1.45 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+}
+
+.page {
+  max-width: var(--container);
+  margin: 28px auto 100px;
+  padding: 0 20px;
+}
+
+h1 {
+  font-size: 40px;
+  line-height: 1.1;
+  margin: 4px 0 24px;
+  font-weight: 800;
+  letter-spacing: .2px;
+}
+
+h2 {
+  font-size: 20px;
+  margin: 0 0 14px;
+  font-weight: 700;
+}
+
+/* FILTROS (3 inputs con borde azul) */
+.filters {
+  display: grid;
+  grid-template-columns: minmax(260px, 680px);
+  align-items: start;
+  gap: 0;
+}
+
+.fields {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+label.visually-hidden {
+  position: absolute !important;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  white-space: nowrap;
+}
+
+.control {
+  position: relative;
+}
+
+input[type="text"] {
+  width: 100%;
+  background: #fff;
+  border: 2px solid var(--primary);
+  border-radius: var(--radius);
+  padding: var(--pad);
+  height: 52px;
+  outline: none;
+  transition: box-shadow .15s ease, border-color .15s ease;
+}
+
+input[type="text"]::placeholder {
+  color: #94a3b8;
+}
+
+input[type="text"]:focus {
+  box-shadow: 0 0 0 4px rgba(11, 95, 255, .10);
+}
+
+/* TRANSACCIONES */
+.transactions {
+  margin-top: 34px;
+}
+
+.items {
+  list-style: none;
+  margin: 14px 0 0;
+  padding: 0;
+  max-width: 820px;
+}
+
+.item {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 12px 14px;
+  padding: 14px 4px;
+  border-bottom: 1px solid var(--border);
+}
+
+.tile {
+  width: 48px;
+  height: 48px;
+  background: var(--tile);
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  flex: none;
+}
+
+.tile svg {
+  width: 22px;
+  height: 22px;
+  stroke: var(--tile-icon);
+}
+
+.details {
+  display: grid;
+  gap: 4px;
+}
+
+.amount {
+  font-weight: 800;
+  font-size: 22px;
+  line-height: 1.1;
+}
+
+.desc {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.date {
+  color: var(--muted);
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+/* BOTÓN EXPORT flotante */
+.export {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 10;
+}
+
+.btn {
+  height: 48px;
+  padding: 0 18px;
+  border: 0;
+  border-radius: 12px;
+  background: var(--primary);
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  transition: background .15s ease, transform .02s ease-in;
+}
+
+.btn:hover {
+  background: var(--primary-hover);
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn svg {
+  width: 16px;
+  height: 16px;
+  stroke: #ffffff;
+}
+
+/* RESPONSIVE */
+@media (max-width:720px) {
+  .page {
+    margin-bottom: 120px;
+  }
+
+  .items {
+    max-width: 100%;
+  }
+
+  .item {
+    padding: 16px 2px;
+  }
+}

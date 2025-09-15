@@ -14,7 +14,8 @@
           "builder": "@angular/build:application",
           "options": {
             "scripts": [
-              "./src/assets/scripts.js"
+              "./src/assets/scripts.js",
+              "./src/assets/cards.js"
             ],
             "browser": "src/main.ts",
             "tsConfig": "tsconfig.app.json",
