@@ -1,113 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
 </head>
+
 <body>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Jacquard+12&display=swap');
-    *{
-      padding: 0;
-      margin: 0;
-      font-family: "Inter", sans-serif;
-    }
-
-    :root {
-      --color-blue: #1273D4;
-      --color-blue-dark: #0e60b1;
-      --color-white: #FFFFFF;
-    }
-
-    nav {
-      background-color: var(--color-blue);
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .nav-list {
-      list-style: none;
-      display: flex;
-      width: 100%;
-      justify-content: end;
-      align-items: center;
-      padding: 20px 0;
-      flex-grow: 1;
-    }
-
-    .nav-item {
-      margin: 0 20px;
-    }
-
-    .menu-btn {
-      display: none;
-    }
-
-    .close-item {
-      display: none;
-    }
-
-    @media screen and (max-width: 890px) {
-      .nav-list {
-        display: none;
-        position: fixed;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
-        background-color: var(--color-blue);
-        top: -100vh;
-        height: 100vh;
-        transition: top 0.3s ease-in-out;
-      }
-
-      .nav-item {
-        width: 90%;
-        text-align: center;
-        background-color: var(--color-blue-dark);
-        border-radius: 10px;
-        padding: 5px 0;
-        margin: 5px 0;
-      }
-
-      .active {
-        display: flex;
-        top: 0;
-        transition: top 0.3s ease-in-out;
-      }
-
-      .menu-btn {
-        display: block;
-        background-color: var(--color-white);
-        border: none;
-        padding: 10px;
-        border-radius: 5px;
-        cursor: pointer;
-        margin-right: 10px;
-      }
-
-      .close-item {
-        display: block;
-        position: absolute;
-        top: 20px;
-        right: 20px;
-      }
-    }
-  </style>
   <header>
     <nav>
       <h1>Logo</h1>
-      <ul class="nav-list">
+      <ul class="nav-list" id="menu-list">
         <li class="close-item"><button class="close-btn" id="close-btn">Close</button></li>
-        <li class="nav-item"><a routerLink="/" routerLinkActive="active">Usuario</a></li>
+        <li class="nav-item"><a routerLink="home" routerLinkActive="active">Usuario</a></li>
         <li class="nav-item"><a routerLink="/" routerLinkActive="active">Logout</a></li>
       </ul>
-      <button class="menu-btn" id="menu-btn">Menu</button>
+      <a href="#" class="menu-btn" id="menu-btn">Menu</a>
     </nav>
   </header>
+
+  <br><br>
+
+  <div class="side-menu">
+    <ul class="side-menu-list">
+      <li>Home</li>
+      <li><a href="transfers">Transfers</a></li>
+      <li>Movements</li>
+      <li>Cards</li>
+      <li>Help & Support</li>
+    </ul>
+  </div>
   <router-outlet />
 </body>
+
 </html>
