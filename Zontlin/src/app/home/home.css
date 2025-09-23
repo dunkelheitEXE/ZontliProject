@@ -1,0 +1,283 @@
+    /* --- Reseteo Básico y Estilos Globales (Mobile First) --- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f9fafb;
+      /* Lighter background for better contrast */
+      color: #1f2937;
+      line-height: 1.6;
+    }
+
+    /* --- Contenedor Principal --- */
+    .main-container {
+      padding: 1rem;
+      /* Padding reducido para móviles */
+      width: 50%;
+      margin-left: 450px;
+    }
+
+    /* --- Tipografía --- */
+    .main-title {
+      font-size: 1.875rem;
+      /* 30px */
+      font-weight: 700;
+      color: #111827;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .section-title {
+      font-size: 1.25rem;
+      /* 20px */
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    /* --- Diseño de Rejilla (Grid) --- */
+    .grid-container {
+      display: grid;
+      grid-template-columns: 1fr;
+      /* Una columna por defecto para móviles */
+      gap: 2rem;
+    }
+
+    /* --- Tarjetas y Secciones --- */
+    .card {
+      background-color: #ffffff;
+      padding: 1.5rem;
+      border-radius: 0.75rem;
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+      border: 1px solid #e5e7eb;
+    }
+
+    /* --- Sección: Mis Cuentas --- */
+    .accounts-section .card>div:not(:last-child) {
+      margin-bottom: 1rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .account-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .account-item .details p:first-child {
+      color: #6b7280;
+      font-size: 0.875rem;
+      /* 14px */
+    }
+
+    .account-item .details p:last-child {
+      font-size: 0.875rem;
+      /* 14px */
+      color: #2563eb;
+      font-weight: 500;
+    }
+
+    .account-item .balance {
+      font-size: 1.125rem;
+      /* 18px */
+      font-weight: 600;
+      white-space: nowrap;
+      /* Evita que el saldo se rompa en dos líneas */
+      margin-left: 0.5rem;
+    }
+
+    /* --- Sección: Acciones --- */
+    .actions-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      /* Dos botones por fila en móvil */
+      gap: 1rem;
+    }
+
+    .action-button {
+      background-color: #2563eb;
+      color: white;
+      font-weight: 600;
+      padding: 0.75rem 1rem;
+      border: none;
+      border-radius: 0.75rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      text-align: center;
+    }
+
+    .action-button:hover {
+      background-color: #1d4ed8;
+      transform: translateY(-2px);
+    }
+
+    /* --- Sección: Para Ti --- */
+    .for-you-card {
+      background-color: #2563eb;
+      color: white;
+      padding: 1.5rem;
+      border-radius: 0.75rem;
+      box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.2),
+        0 4px 6px -2px rgba(37, 99, 235, 0.1);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .for-you-card .content {
+      position: relative;
+      z-index: 10;
+    }
+
+    .for-you-card h3 {
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    .for-you-card p {
+      margin-top: 0.5rem;
+      margin-bottom: 1rem;
+      color: #dbeafe;
+      min-height: 40px;
+      /* Altura mínima para consistencia */
+    }
+
+    .for-you-card .button-group {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .for-you-card button {
+      background-color: white;
+      color: #2563eb;
+      font-weight: 700;
+      padding: 0.5rem 1.25rem;
+      border: none;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .for-you-card button:hover {
+      transform: translateY(-2px);
+    }
+
+    .for-you-card button.gemini-button {
+      background-color: #1d4ed8;
+      color: white;
+    }
+
+    .for-you-card button.gemini-button:hover {
+      background-color: #1e3a8a;
+    }
+
+    .for-you-card img {
+      position: absolute;
+      width: 8rem;
+      /* Tamaño ajustado para móvil */
+      bottom: -1.5rem;
+      right: -1.5rem;
+      opacity: 0.2;
+      z-index: 0;
+      transition: all 0.3s ease;
+    }
+
+    /* --- Sección: Actividad Reciente --- */
+    .activity-list>div+div {
+      margin-top: 1rem;
+    }
+
+    .activity-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #ffffff;
+      padding: 0.75rem 1rem;
+      border-radius: 0.5rem;
+      border: 1px solid #e5e7eb;
+    }
+
+    .activity-item .details p:first-child {
+      font-weight: 600;
+    }
+
+    .activity-item .details p:last-child {
+      font-size: 0.875rem;
+      color: #6b7280;
+    }
+
+    .activity-item .amount {
+      font-weight: 600;
+    }
+
+    .amount.income {
+      color: #16a34a;
+      /* Tono de verde más accesible */
+    }
+
+    .amount.payment {
+      color: #dc2626;
+      /* Tono de rojo más accesible */
+    }
+
+    /* --- Media Queries para Responsividad --- */
+    /* Se aplica en pantallas de 768px o más (tablets y escritorios) */
+    @media (min-width: 768px) {
+      .main-container {
+        padding: 2.5rem;
+        /* Más espacio en pantallas grandes */
+      }
+
+      .main-title {
+        font-size: 2.25rem;
+        /* 36px */
+        text-align: left;
+        /* Alinear a la izquierda en escritorio */
+      }
+
+      .grid-container {
+        grid-template-columns: repeat(2, 1fr);
+        /* Rejilla de 2 columnas */
+        gap: 2rem;
+      }
+
+      /* Hacer que la sección Para Ti y Actividad Reciente ocupen el ancho completo */
+      .for-you-section,
+      .recent-activity-section {
+        grid-column: 1 / -1;
+        /* Abarca desde la primera a la última columna */
+      }
+
+      .actions-grid {
+        grid-template-columns: repeat(4, 1fr);
+        /* 4 botones en línea */
+      }
+
+      .for-you-card {
+        flex-direction: row;
+        align-items: center;
+        padding: 2rem;
+      }
+
+      .for-you-card img {
+        position: relative;
+        width: 9rem;
+        opacity: 0.8;
+        bottom: auto;
+        right: auto;
+        margin-left: 2rem;
+      }
+
+      .for-you-card p {
+        min-height: auto;
+        /* Resetear altura mínima */
+      }
+    }

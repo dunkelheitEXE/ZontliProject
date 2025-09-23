@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <header>
+    <nav>
+      <h1>Logo</h1>
+      <ul class="nav-list" id="menu-list">
+        <li class="close-item"><button class="close-btn" id="close-btn">Close</button></li>
+        <li class="nav-item"><a routerLink="home" routerLinkActive="active">Usuario</a></li>
+        <li class="nav-item"><a routerLink="/" routerLinkActive="active">Logout</a></li>
+      </ul>
+      <a href="#" class="menu-btn" id="menu-btn">Menu</a>
+    </nav>
+  </header>
+
+  <br><br>
+
+  <div class="side-menu">
+    <ul class="side-menu-list">
+      <li><a href="session/">Home</a></li>
+      <li><a href="session/transfers">Transfers</a></li>
+      <li><a href="session/movements">Movements</a></li>
+      <li><a href="session/cards">Cards</a></li>
+      <li><a href="session/help-and-support">Help & Support</a></li>
+    </ul>
+  </div>
+  <router-outlet />
+  <script src="assets/scripts.js">
+  </script>r
+</body>
+
+</html>

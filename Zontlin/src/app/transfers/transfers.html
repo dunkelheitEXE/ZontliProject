@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Transfers</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+</head>
+
+<body>
+  <main class="page">
+    <h1>Transfers</h1>
+
+    <section aria-labelledby="make-transfer-title">
+      <h2 id="make-transfer-title">Make a Transfer</h2>
+
+      <form class="transfer" action="#" method="post">
+        <div class="fields">
+          <div class="control">
+            <label for="account-select" class="visually-hidden">Account Name</label>
+            <select id="account-select" name="account">
+              <option>Alfonso</option>
+              <option>Alan</option>
+              <option>Alfredo</option>
+              <option>Job</option>
+              <option>Axel</option>
+              <option selected>New Account</option>
+            </select>
+          </div>
+
+          <div class="control">
+            <label for="amount" class="visually-hidden">Account Number</label>
+            <input id="amount" name="amount" type="text" placeholder="Enter Account" />
+          </div>
+
+          <div class="control">
+            <label for="amount" class="visually-hidden">Amount</label>
+            <input id="amount" name="amount" type="text" placeholder="Enter Amount" />
+          </div>
+
+          <div class="control">
+            <label for="description" class="visually-hidden">Description</label>
+            <input id="description" name="description" type="text" placeholder="Add a Description (Optional)" />
+          </div>
+        </div>
+
+        <button class="btn" type="submit">Confirm Transfer</button>
+      </form>
+    </section>
+
+    <section class="recent" aria-labelledby="recent-transfers-title">
+      <h2 id="recent-transfers-title">Recent Transfers</h2>
+
+      <ul class="items">
+        <li class="item">
+          <div>
+            <div class="amount">$250.00</div>
+            <div class="to">To: Savings Account</div>
+          </div>
+          <span class="arrow" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+          </span>
+        </li>
+
+        <li class="item">
+          <div>
+            <div class="amount">$150.00</div>
+            <div class="to">To: Checking Account</div>
+          </div>
+          <span class="arrow" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+          </span>
+        </li>
+
+        <li class="item">
+          <div>
+            <div class="amount">$500.00</div>
+            <div class="to">To: Investment Account</div>
+          </div>
+          <span class="arrow" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+          </span>
+        </li>
+      </ul>
+    </section>
+  </main>
+</body>
+
+</html>
