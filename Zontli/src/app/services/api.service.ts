@@ -6,9 +6,10 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
+
 export class ApiService {
   private apiUrl = 'http://localhost:3000/api'; // Adjust port if needed
-
+  
   constructor(private http: HttpClient) { }
 
   getData(): Observable<any> {

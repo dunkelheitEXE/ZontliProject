@@ -1,9 +1,9 @@
 import { Routes } from '@angular/router';
 import { MainLayout } from './main-layout/main-layout';
 import { Login } from './login/login';
-import { Signup } from './signup/signup';
 import { AuthLayout } from './auth-layout/auth-layout';
 import { Home } from './home/home';
+import { Signup } from './signup/signup';
 
 export const routes: Routes = [
     {

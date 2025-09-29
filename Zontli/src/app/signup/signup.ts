@@ -1,25 +1,30 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { ApiService } from '../services/api.service';
 import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-signup',
-  imports: [FormsModule],
+  imports: [FormsModule, CommonModule],
   templateUrl: './signup.html',
   styleUrl: './signup.css'
 })
 export class Signup {
   form = {
-    email : "",
-    password : ""
+    fullName: "",
+    date: "",
+    nacionality: "",
+    gender: "",
+    id: "",
+    rfc: "",
+    address: "",
+    zipCode: "",
+    phoneNumber: "",
+    email: "",
+    password: "",
+    confiPass: "",
   }
 
-  constructor(private apiService : ApiService) {}
-
-  onSubmit() {
-    alert("HA");
-    this.apiService.signup(this.form).subscribe(e=>{
-      console.log(e.message);
-    });
+  onSubmit(formValue: any) : void {
+    console.log(formValue["form"].value);
   }
 }
