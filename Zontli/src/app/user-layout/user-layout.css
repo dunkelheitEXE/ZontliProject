@@ -1,0 +1,137 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+
+* {
+    padding: 0;
+    margin: 0;
+    font-family: "Inter", sans-serif;
+}
+
+:root {
+    --primary-color: #1273D4;
+    --secondary-color: #E5E5E5;
+    --soft-color: #bebebe;
+    --secondary-btn: #9c814f;
+    --black-text: #292929;
+}
+
+header {
+    position: fixed;
+    z-index: 1000;
+    width: 100%;
+    background-color: var(--primary-color);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 30px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+nav {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar {
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    align-items: center;
+    padding-right: 30px;
+}
+
+.nav-brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding: 20px 0;
+}
+
+.navbar-item {
+    list-style: none;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#btn-menu {
+    background: var(--secondary-btn);
+    border: none;
+    border-radius: 5px;
+    color: white;
+    padding: 10px 20px;
+}
+
+
+/* OffCanvas */
+
+.offcanvas {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 250px;
+    height: 100%;
+    background-color: var(--secondary-color);
+    color: var(--black-text);
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    transition: left 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.visible {
+    left: 0;
+}
+
+.offcanvas-header {
+    margin: 0 auto;
+    margin-top: 15vh;
+    width: 90%;
+}
+
+.offcanvas-menu {
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.offcanvas-menu li {
+    width: 90%;
+    margin: 5px 0;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.offcanvas-menu li a {
+    text-decoration: none;
+    color: var(--black-text);
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    font-weight: 500;
+    width: 100%;
+}
+
+.offcanvas-item {
+    background: var(--soft-color);
+}
+
+.btn-profile {
+    background-color: var(--secondary-color);
+}
+
+.btn-settings {
+    background-color: var(--secondary-color);
+}
+
+.btn-logout {
+    background-color: #ff4d4d;
+    color: white;
+}
