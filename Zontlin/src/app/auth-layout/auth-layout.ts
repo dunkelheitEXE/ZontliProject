@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { DataService } from '../services/data.service';
 
 @Component({
   selector: 'app-auth-layout',
@@ -7,6 +8,18 @@ import { RouterOutlet } from '@angular/router';
   templateUrl: './auth-layout.html',
   styleUrl: './auth-layout.css'
 })
-export class AuthLayout {
+export class AuthLayout implements OnInit {
+  message : String = "";
+  
+  constructor(private dataService: DataService) {}
 
+  ngOnInit(): void {
+    this.getMessage();
+  }
+
+  getMessage():void {
+    this.dataService.getData().subscribe(response => {
+      this.message = `${response.message}`;
+    });
+  }
 }
