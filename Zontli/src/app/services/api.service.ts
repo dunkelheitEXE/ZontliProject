@@ -20,6 +20,10 @@ export class ApiService {
     return this.http.post(`${this.apiUrl}/signup`, newUser);
   }
 
+  login(user: any) : Observable<any> {
+    return this.http.post(`${this.apiUrl}/login`, user);
+  }
+
   createItem(item: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/items`, item);
   }

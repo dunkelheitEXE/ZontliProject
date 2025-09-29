@@ -97,9 +97,9 @@
 
     <h1>Zontli</h1>
 
-    <form action="session/">
-      <input type="text" placeholder="Username" required>
-      <input type="password" placeholder="Password" required>
+    <form (ngSubmit)="onSubmit(loginForm)" #loginForm="ngForm">
+      <input type="text" placeholder="Username" name="email" id="email" ngModel required #email="ngModel">
+      <input type="password" placeholder="Password" name="password" id="password" ngModel required #password="ngModel">
       <a href="">Forgot Password?</a>
       <button type="submit">Login</button>
     </form>

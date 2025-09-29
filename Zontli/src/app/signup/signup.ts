@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { ApiService } from '../services/api.service';
 
 @Component({
   selector: 'app-signup',
@@ -24,7 +25,9 @@ export class Signup {
     confiPass: "",
   }
 
+  constructor (private apiService : ApiService) {}
+
   onSubmit(formValue: any) : void {
-    console.log(formValue["form"].value);
+    this.apiService.signup(formValue["form"].value).subscribe(response => console.log(response.message));
   }
 }

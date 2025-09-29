@@ -1,22 +1,25 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../services/api.service';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
-  imports: [],
+  imports: [FormsModule, CommonModule],
   templateUrl: './login.html',
   styleUrl: './login.css'
 })
-export class Login implements OnInit{
+export class Login {
+  form = {
+    'email': "",
+    'password': ""
+  };
+
   constructor (private apiService: ApiService) {}
 
-  ngOnInit(): void {
-      this.fetch();
-  }
-
-  fetch() : void {
-    this.apiService.getData().subscribe(res => {
-      console.log(res);
-    });
+  onSubmit(formData: any): void {
+    console.log(formData["form"].value);
+    let data = formData["form"].value;
+    this.apiService.login(data).subscribe(res => console.log(res.message));
   }
 }
