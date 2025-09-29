@@ -1,24 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { ApiService } from '../services/api.service';
+import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-main-layout',
-  imports: [],
+  imports: [RouterOutlet],
   templateUrl: './main-layout.html',
   styleUrl: './main-layout.css'
 })
-export class MainLayout implements OnInit{
-  message: string = '';
+export class MainLayout {
 
-  constructor (private apiService: ApiService) {}
-
-  ngOnInit(): void {
-      this.fetch();
-  }
-
-  fetch (): void {
-    this.apiService.getData().subscribe(response => {
-      console.log(response);
-    })
-  }
 }

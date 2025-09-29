@@ -12,6 +12,12 @@ app.get('/api/data', (req, res) => {
     res.json({ message: 'Data from Express API' });
 });
 
+app.post('api/signup', (req, res) => {
+    const { email, password } = req.body;
+    console.log("Sent: \n " + email + " " + password);
+    res.json({ message: `Sent: ${email}: ${password}` });
+});
+
 app.post('/api/items', (req, res) => {
     const newItem = req.body;
     // Process the new item (e.g., save to database)

@@ -15,6 +15,10 @@ export class ApiService {
     return this.http.get(`${this.apiUrl}/data`);
   }
 
+  signup(newUser: any) : Observable<any> {
+    return this.http.post(`${this.apiUrl}/signup`, newUser);
+  }
+
   createItem(item: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/items`, item);
   }

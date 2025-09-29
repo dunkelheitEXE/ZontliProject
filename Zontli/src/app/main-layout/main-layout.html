@@ -1,1 +1,33 @@
-<h1>HOLA MUNDP</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="brand"><h1>Zontli</h1></div>
+            <ul class="nav-bar">
+                <li class="nav-item">User</li>
+                <li class="nav-item"><a href="#" class="btn-menu" id="btn-menu"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#F3F3F3"><path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"/></svg></a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="offCanvas" id="offCanvas">
+        <div class="offCanvasHead">
+            <h4>Zontli</h4>
+        </div>
+        <ul class="offCanvasBody">
+            <li><a href="#">Home</a></li>
+            <li>Transfers</li>
+            <li>Movements</li>
+            <li>Cards</li>
+        </ul>
+    </div>
+    <router-outlet />
+    <script src=""></script>
+</body>
+</html>
