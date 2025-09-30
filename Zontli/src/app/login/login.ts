@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../services/api.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -15,11 +16,12 @@ export class Login {
     'password': ""
   };
 
-  constructor (private apiService: ApiService) {}
+  constructor (private apiService: ApiService, private authService: AuthService) {}
 
   onSubmit(formData: any): void {
     console.log(formData["form"].value);
     let data = formData["form"].value;
-    this.apiService.login(data).subscribe(res => console.log(res.message));
+    // this.apiService.login(data).subscribe(res => console.log(res.message));
+    this.authService.login(data["email"], data["password"]).subscribe(res => console.log(res.message));
   }
 }

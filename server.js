@@ -4,10 +4,31 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const database = require("./database");
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken'); // You'll need to install this: npm install jsonwebtoken
+
+const JWT_SECRET = process.env.JWT_SECRET || 'fish-bash-kitty';
 
 // Middleware for parsing JSON request bodies
 app.use(cors({origin: "http://localhost:4200",  credentials: true}));
 app.use(express.json());
+
+// Authentication middleware
+const authenticateToken = (req, res, next) => {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1]; // Bearer TOKEN
+
+    if (!token) {
+        return res.status(401).json({ success: false, message: 'Access token required' });
+    }
+
+    jwt.verify(token, JWT_SECRET, (err, user) => {
+        if (err) {
+            return res.status(403).json({ success: false, message: 'Invalid or expired token' });
+        }
+        req.user = user;
+        next();
+    });
+};
 
 // Define your API routes
 app.get('/api/data', (req, res) => {
@@ -73,8 +94,6 @@ app.post('/api/login', async (req, res) => {
         }
 
         const user = users;
-        console.log(password);
-        console.log(users.password);
 
         // Verify password
         const isPasswordValid = await bcrypt.compare(password, user.password);
@@ -85,6 +104,17 @@ app.post('/api/login', async (req, res) => {
                 message: 'Invalid email or password' 
             });
         }
+
+        // Generate JWT token
+        const token = jwt.sign(
+            { 
+                userId: user.id, 
+                email: user.email 
+            },
+            JWT_SECRET,
+            { expiresIn: '24h' }
+        );
+
 
         // Login successful - remove password from response
         const { password: _, ...userWithoutPassword } = user;
@@ -97,7 +127,8 @@ app.post('/api/login', async (req, res) => {
         res.json({ 
             success: true, 
             message: 'Login successful',
-            user: sanitizedUser
+            user: sanitizedUser,
+            token: token
         });
 
     } catch (error) {
