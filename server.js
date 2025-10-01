@@ -51,9 +51,9 @@ app.post('/api/signup', async (req, res) => {
             newUser['phoneNumber'], 
             hashedPassword
         ]);
-        res.json({ message: newUser});
+        res.json({ message: newUser, registered: true});
     } catch (e) {
-        res.status(500).json(e);
+        res.status(500).json({message: e, registered: false});
     }
 });
 

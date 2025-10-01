@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ApiService } from '../services/api.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-signup',
@@ -25,9 +26,16 @@ export class Signup {
     confiPass: "",
   }
 
-  constructor (private apiService : ApiService) {}
+  constructor (private apiService : ApiService, private router: Router) {}
 
   onSubmit(formValue: any) : void {
-    this.apiService.signup(formValue["form"].value).subscribe(response => console.log(response.message));
+    this.apiService.signup(formValue["form"].value).subscribe(response => {
+      console.log(response.message)
+      if (response.registered == true) {
+        this.router.navigate([""]);
+      } else {
+        alert("Try Again");
+      }
+    });
   }
 }
