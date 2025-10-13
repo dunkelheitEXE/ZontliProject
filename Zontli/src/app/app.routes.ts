@@ -8,6 +8,7 @@ import { Signup } from './signup/signup';
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, UrlTree } from '@angular/router';
 import { AuthService } from './services/auth.service';
+import { Transfers } from './transfers/transfers';
 
 @Injectable({
   providedIn: 'root'
@@ -54,7 +55,7 @@ export const routes: Routes = [
         canActivate: [AuthGuard],
         children: [
             { path: "", component: Home },
-            { path: "signup", component: Signup }
+            { path: "transfers", component: Transfers }
         ]
     }
 ];
