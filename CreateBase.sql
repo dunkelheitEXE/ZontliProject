@@ -82,3 +82,4 @@ CREATE TABLE movements(
   FOREIGN KEY(destination_account_id) REFERENCES accounts(account_id)
 );
 
+

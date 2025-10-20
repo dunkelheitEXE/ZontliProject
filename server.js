@@ -89,25 +89,6 @@ app.post('/api/login', async (req, res) => {
         }
 
         const isPasswordValid = await bcrypt.compare(password, rows[0]['password']);
-
-        // const [users] = await connection.query(query, [email]);
-        
-        // Release connection back to pool
-        // connection.release();
-
-        // const length = Object.keys(users).length;
-        // // Check if user exists
-        // if (length === 0) {
-        //     return res.status(401).json({ 
-        //         success: false, 
-        //         message: 'Invalid email or password' 
-        //     });
-        // }
-
-        // const user = users;
-
-        // // Verify password
-        // const isPasswordValid = await bcrypt.compare(password, user.password);
         
         if (!isPasswordValid) {
             console.error("Password is not valid");

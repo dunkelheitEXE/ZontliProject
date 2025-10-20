@@ -1,5 +1,4 @@
 function action() {
-    alert("JAS");
     const accountForm = document.createElement("div");
     const form = document.createElement("form");
 
