@@ -40,17 +40,16 @@ app.post('/api/signup', async (req, res) => {
         const newUser = req.body;
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(newUser['password'], salt);
-        const connection = await database.getConnection();
-        const query = "INSERT INTO user (name, last_name, birth_date, curp, email, phone_number, password, register_date) VALUES (?, ?, ?, ?, ?, ?, ?, CURDATE())";
-        const result = await connection.query(query, [
-            newUser['fullName'], 
-            newUser['fullName'], 
-            newUser['date'], 
-            newUser['rfc'], 
-            newUser['email'], 
-            newUser['phoneNumber'], 
-            hashedPassword
-        ]);
+        database.query('INSERT INTO user (name, last_name, birth_date, curp, email, phone_number, password, register_date) VALUES(?, ?, ?, ?, ?, ?, ?, NOW())',
+            [newUser['fullName'], newUser['fullName'], newUser['date'], newUser['rfc'], newUser['email'], newUser['phoneNumber'], hashedPassword],
+            (error, results) => {
+                if(error) {
+                    console.error(error);
+                } else {
+                    console.log("User sent");
+                }
+            }
+        )
         res.json({ message: newUser, registered: true});
     } catch (e) {
         res.status(500).json({message: e, registered: false});
@@ -74,31 +73,44 @@ app.post('/api/login', async (req, res) => {
                 message: 'Email and password are required' 
             });
         }
-
-        const connection = await database.getConnection();
         
         // Query to find user by email
         const query = "SELECT * FROM user WHERE email = ?";
-        const [users] = await connection.query(query, [email]);
-        
-        // Release connection back to pool
-        connection.release();
+        const [rows] = await database.query(query, [email]);
+        console.log(rows[0]);
 
-        const length = Object.keys(users).length;
-        // Check if user exists
+        // To check if password matchs
+        const length = Object.keys(rows).length;
         if (length === 0) {
-            return res.status(401).json({ 
-                success: false, 
-                message: 'Invalid email or password' 
+            return res.status(401).json({
+                'success': false,
+                'message': 'Any user was found'
             });
         }
 
-        const user = users;
+        const isPasswordValid = await bcrypt.compare(password, rows[0]['password']);
 
-        // Verify password
-        const isPasswordValid = await bcrypt.compare(password, user.password);
+        // const [users] = await connection.query(query, [email]);
+        
+        // Release connection back to pool
+        // connection.release();
+
+        // const length = Object.keys(users).length;
+        // // Check if user exists
+        // if (length === 0) {
+        //     return res.status(401).json({ 
+        //         success: false, 
+        //         message: 'Invalid email or password' 
+        //     });
+        // }
+
+        // const user = users;
+
+        // // Verify password
+        // const isPasswordValid = await bcrypt.compare(password, user.password);
         
         if (!isPasswordValid) {
+            console.error("Password is not valid");
             return res.status(401).json({ 
                 success: false, 
                 message: 'Invalid email or password' 
@@ -108,8 +120,8 @@ app.post('/api/login', async (req, res) => {
         // Generate JWT token
         const token = jwt.sign(
             { 
-                userId: user.id, 
-                email: user.email 
+                userId: rows[0]["user_id"], 
+                email: rows[0]["email"]
             },
             JWT_SECRET,
             { expiresIn: '24h' }
@@ -117,7 +129,7 @@ app.post('/api/login', async (req, res) => {
 
 
         // Login successful - remove password from response
-        const { password: _, ...userWithoutPassword } = user;
+        const { password: _, ...userWithoutPassword } = rows[0];
         
         // Convert BigInt values to strings to avoid serialization issues
         const sanitizedUser = JSON.parse(JSON.stringify(userWithoutPassword, (key, value) =>
