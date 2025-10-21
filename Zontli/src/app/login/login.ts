@@ -22,6 +22,15 @@ export class Login {
     console.log(formData["form"].value);
     let data = formData["form"].value;
     // this.apiService.login(data).subscribe(res => console.log(res.message));
-    this.authService.login(data["email"], data["password"]).subscribe(res => console.log(res.message));
+    this.authService.login(data["email"], data["password"]).subscribe({
+      next: (res) => {
+        console.log(res.message);
+        // Manejar éxito
+      },
+      error: (error) => {
+        alert('Error: ' + (error.error?.message || 'Login failed'));
+        console.error(error);
+      }
+    });
   }
 }
