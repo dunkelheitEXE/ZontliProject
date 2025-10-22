@@ -6,6 +6,10 @@ const database = require("./database");
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken'); // You'll need to install this: npm install jsonwebtoken
 
+const mailer = require('nodemailer');
+require('dotenv').config({path: '/home/alangrajeda/codding/gitrepos/ZontliProject/server/.env'});
+
+
 const JWT_SECRET = process.env.JWT_SECRET || 'fish-bash-kitty';
 
 // Middleware for parsing JSON request bodies
@@ -131,6 +135,60 @@ app.post('/api/login', async (req, res) => {
             message: 'Internal server error' 
         });
     }
+});
+
+app.post("/api/addAccount", (req, res) => {
+    try {
+        const [userId, type, balance, creditLimit=null] = req.body;
+        console.log(req.body);
+        if (userId && type && balance) {
+            const query = "INSERT INTO accounts (user_id, account_type, balance, date, opening_date, status, credit_limit) VALUES(?, ?, ?, NOW(), NOW(), 1, ?)";
+            database.query(query, [userId, type, balance, creditLimit])
+            res.status(201).json({
+                success: true,
+                message: "Recived Data from user: " + userId
+            });
+        } else {
+            console.log("Data is not recived");
+            res.status(201).json({
+                success: false,
+                message: "Something has gone wrong"
+            });
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(401).json({
+            success: false,
+            message: "There is an error: " + error
+        });
+    }
+});
+
+app.post("/api/testemail", (req, res) => {
+    const transport = mailer.createTransport({
+        host: 'sandbox.smtp.mailtrap.io',
+        port: '2525',
+        secure: false,
+        auth: {
+            user: process.env.MAILUSER,
+            pass: process.env.MAILPASSWORD,
+        }
+    });
+
+    const mailOptions = {
+        from: "your_verified_sender@example.com",
+        to: "recipient@example.com",
+        subject: "Test Email from Node.js with Nodemailer and Mailtrap",
+        text: "This is a test email sent via Nodemailer and Mailtrap SMTP.",
+    };
+
+    transport.sendMail(mailOptions, (error, info) => {
+        if (error) {
+        console.log(error);
+        } else {
+        console.log("Email sent: " + info.response);
+        }
+    });
 });
 
 // Start the server

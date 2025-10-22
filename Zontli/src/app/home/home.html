@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <!-- <style>
+  <style>
     .newAccountContainer{
       position: fixed; 
       background-color: #cacaca;
@@ -51,20 +51,27 @@
       box-shadow: 2px 3px 5px #363636;
       background-color: #cecece;
     }
+
+    .inactive {
+      display: none;
+    }
   </style>
 
-  <div class="newAccountContainer">
-    <form class="createNewAccountForm">
+  <div class="newAccountContainer inactive">
+    <form class="createNewAccountForm" (ngSubmit)="onSubmit(accountForm)" #accountForm="ngForm">
       <h3>Add New Account</h3>
-      <select name="accountType" id="accountType" class="newAccountItem">
+      <b>{{ userName }}</b>
+      <input type="number" name="userId" class="newAccountItem" ngModel="{{ userName }}" [readonly]="isReadOnly" #userId="ngModel" style="display: none;">
+      <select name="accountType" id="accountType" class="newAccountItem" ngModel #accountType="ngModel">
         <option value="" selected>Choose Account Type...</option>
-        <option value="checking">Checking Account</option>
-        <option value="savings">Savings Account</option>
+        <option value="debit">Debit Account</option>
+        <option value="credit">Credit Account</option>
       </select>
-      <input type="number" name="balance" id="balance" placeholder="Initial Balance" class="newAccountItem" />
+      <input type="number" name="balance" id="balance" placeholder="Initial Balance" class="newAccountItem" ngModel #balance="ngModel" />
       <button type="submit" class="newAccountItem">Create</button>
     </form>
-  </div> -->
+  </div>
+
   <div class="main-container">
     <h1 class="main-title">Home</h1>
     

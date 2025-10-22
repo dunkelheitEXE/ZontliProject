@@ -27,4 +27,12 @@ export class ApiService {
   createItem(item: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/items`, item);
   }
+
+  addAcount(userId: any, type: any, balance: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/addAccount`, [userId, type, balance]);
+  }
+
+  email(item: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/testemail`, item);
+  }
 }
