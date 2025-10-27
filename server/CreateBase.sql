@@ -81,5 +81,3 @@ CREATE TABLE movements(
   FOREIGN KEY(source_account_id) REFERENCES accounts(account_id),
   FOREIGN KEY(destination_account_id) REFERENCES accounts(account_id)
 );
-
-DELIMITER $$

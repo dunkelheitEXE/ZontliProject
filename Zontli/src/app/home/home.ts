@@ -12,7 +12,8 @@ import { ApiService } from '../services/api.service';
 })
 export class Home {
 
-  userName: number = 0;
+  id: number = 0;
+  userName: string = "";
   isReadOnly: boolean = true;
 
   constructor (private ApiService: ApiService) {
@@ -21,7 +22,9 @@ export class Home {
     const userData = localStorage.getItem("currentUser");
     const data = userData ? JSON.parse(userData) : null;
     const strId = JSON.stringify(data["user_id"]);
-    this.userName = parseInt(strId) ?? 0;
+    const userName = JSON.stringify(data["name"]);
+    this.id = parseInt(strId) ?? 0;
+    this.userName = userName ?? null;
   }
 
   onSubmit(formData: any) {

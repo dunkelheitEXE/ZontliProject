@@ -4,6 +4,8 @@ function action() {
 }
 
 document.addEventListener("keydown", e => {
-    const form = document.getElementsByClassName("newAccountContainer");
-    form[0].classList.toggle("inactive");
+    if (e.key == "Escape") {
+        const form = document.getElementsByClassName("newAccountContainer");
+        form[0].classList.toggle("inactive");
+    }
 });

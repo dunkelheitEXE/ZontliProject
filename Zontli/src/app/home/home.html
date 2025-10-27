@@ -61,7 +61,7 @@
     <form class="createNewAccountForm" (ngSubmit)="onSubmit(accountForm)" #accountForm="ngForm">
       <h3>Add New Account</h3>
       <b>{{ userName }}</b>
-      <input type="number" name="userId" class="newAccountItem" ngModel="{{ userName }}" [readonly]="isReadOnly" #userId="ngModel" style="display: none;">
+      <input type="number" name="userId" class="newAccountItem" ngModel="{{ id }}" [readonly]="isReadOnly" #userId="ngModel" style="display: none;">
       <select name="accountType" id="accountType" class="newAccountItem" ngModel #accountType="ngModel">
         <option value="" selected>Choose Account Type...</option>
         <option value="debit">Debit Account</option>
