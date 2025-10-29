@@ -98,7 +98,7 @@
       padding:0 18px;
       border:0;
       border-radius:12px;
-      background:var(--primary);
+      background-color:var(--primary);
       color:#fff;
       font-weight:600;
       cursor:pointer;
@@ -155,42 +155,43 @@
 </head>
 <body>
   <main class="page">
+    <br><br><br>
     <h1>Transfers</h1>
 
     <section aria-labelledby="make-transfer-title">
       <h2 id="make-transfer-title">Make a Transfer</h2>
 
-      <form class="transfer" action="#" method="post">
+      <form class="transfer" id="transfer" (ngSubmit)="onSubmit(transfer)" #transfer="ngForm">
         <div class="fields">
           <div class="control">
-            <label for="account-select" class="visually-hidden">Account Name</label>
-            <select id="account-select" name="account">
-              <option >Alfonso</option>
-              <option >Alan</option>
-              <option >Alfredo</option>
-              <option >Job</option>
-              <option >Axel</option>
-              <option selected>New Account</option>
+            <label for="amount" class="visually-hidden">Amount</label>
+            <input id="amount" name="amount" type="text" placeholder="Enter Amount" ngModel #amount="ngModel" />
+          </div>
+
+          <div class="control">
+            <label for="accountFrom" class="visually-hidden">Account Name</label>
+            <select id="accountFrom" name="accountFrom" ngModel #accountFrom="ngModel">
+              <option value="" selected>Select an Account</option>
+              <option value="{{i['account_id']}}" *ngFor="let i of accounts">{{i['account_id']}}</option>
             </select>
           </div>
 
           <div class="control">
-            <label for="amount" class="visually-hidden">Account Number</label>
-            <input id="amount" name="amount" type="text" placeholder="Enter Account" />
+            <label for="accountTo" class="visually-hidden">Account Number</label>
+            <input id="accountTo" name="accountTo" type="text" placeholder="Enter Account" ngModel #accountTo="ngModel" />
           </div>
 
-          <div class="control">
-            <label for="amount" class="visually-hidden">Amount</label>
-            <input id="amount" name="amount" type="text" placeholder="Enter Amount" />
-          </div>
+          <!-- <div class="control">
+            <input type="number" name="userId" class="newAccountItem" ngModel="{{ id }}" [readonly]="isReadOnly" #userId="ngModel" style="display: none;">
+          </div> -->
 
           <div class="control">
             <label for="description" class="visually-hidden">Description</label>
-            <input id="description" name="description" type="text" placeholder="Add a Description (Optional)" />
+            <input id="description" name="description" type="text" placeholder="Add a Description (Optional)" ngModel #description="ngModel" />
           </div>
         </div>
 
-        <button class="btn" type="submit">Confirm Transfer</button>
+        <button class="btn" type="submit" style="background-color: #1d4ed8;">Confirm Transfer</button>
       </form>
     </section>
 

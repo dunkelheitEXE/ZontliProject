@@ -32,7 +32,15 @@ export class ApiService {
     return this.http.post(`${this.apiUrl}/addAccount`, [userId, type, balance]);
   }
 
+  transfer(formData: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/transfer`, [formData]);
+  }
+
   email(item: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/testemail`, item);
+  }
+
+  getAccounts(userId: any): Observable<any> {
+    return this.http.get(`${this.apiUrl}/accounts/${userId}`);
   }
 }

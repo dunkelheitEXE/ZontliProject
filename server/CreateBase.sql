@@ -81,3 +81,68 @@ CREATE TABLE movements(
   FOREIGN KEY(source_account_id) REFERENCES accounts(account_id),
   FOREIGN KEY(destination_account_id) REFERENCES accounts(account_id)
 );
+
+
+DELIMITER $$
+CREATE PROCEDURE doTransfer(
+    IN in_amount DECIMAL(10,2),
+    IN in_account INT,
+    IN in_to INT,
+    IN in_concept VARCHAR(255)
+)
+BEGIN
+  DECLARE current_balance DECIMAL(10,2);
+  DECLARE account_exists INT;
+  
+  DECLARE EXIT HANDLER FOR SQLEXCEPTION
+  BEGIN
+    ROLLBACK;
+    RESIGNAL;
+  END;
+  
+  START TRANSACTION;
+  
+  -- Validate inputs
+  IF in_amount <= 0 THEN
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Amount must be positive';
+  END IF;
+  
+  IF in_account = in_to THEN
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Cannot transfer to same account';
+  END IF;
+  
+  -- Check if source account exists and has sufficient funds
+  SELECT COUNT(*), COALESCE(MAX(balance), 0) 
+  INTO account_exists, current_balance
+  FROM accounts 
+  WHERE account_id = in_account
+  FOR UPDATE;
+  
+  IF account_exists = 0 THEN
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Source account does not exist';
+  END IF;
+  
+  IF current_balance < in_amount THEN
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Insufficient funds';
+  END IF;
+  
+  -- Check if destination account exists
+  SELECT COUNT(*) INTO account_exists
+  FROM accounts 
+  WHERE account_id = in_to
+  FOR UPDATE;
+  
+  IF account_exists = 0 THEN
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Destination account does not exist';
+  END IF;
+  
+  -- Perform transfer
+  UPDATE accounts SET balance = balance - in_amount WHERE account_id = in_account;
+  INSERT INTO movements (source_account_id, destination_account_id, amount, `date`, concept, movement_type, status)
+  VALUES (in_account, in_to, in_amount, NOW(), in_concept, 'transfer', 1);
+  UPDATE accounts SET balance = balance + in_amount WHERE account_id = in_to;
+  
+  COMMIT;
+END $$
+
+DELIMITER ;

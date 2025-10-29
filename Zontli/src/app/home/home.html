@@ -80,20 +80,13 @@
       <section class="accounts-section">
         <h2 class="section-title">My accounts</h2>
         <button id="createNewAccount" onclick="action()">Add new Account</button>
-        <div class="card">
+        <div class="card" *ngFor="let item of accounts">
           <div class="account-item">
             <div class="details">
               <p>Balance in hand</p>
               <p>**** 1234</p>
             </div>
-            <div class="balance">$15,230.50</div>
-          </div>
-          <div class="account-item">
-            <div class="details">
-              <p>Available balance</p>
-              <p>**** 5678</p>
-            </div>
-            <div class="balance">$8,940.20</div>
+            <div class="balance">{{item["balance"]}}</div>
           </div>
         </div>
       </section>
@@ -102,7 +95,7 @@
       <section>
         <h2 class="section-title">Actions</h2>
         <div class="actions-grid">
-          <button class="action-button">Make a transfer</button>
+          <a class="action-button" href="session/transfers">Make a transfer</a>
           <button class="action-button">Make a deposit</button>
           <button class="action-button">Withdraw money</button>
           <button class="action-button">Make a deposit</button>

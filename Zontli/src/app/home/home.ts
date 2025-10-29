@@ -16,6 +16,8 @@ export class Home {
   userName: string = "";
   isReadOnly: boolean = true;
 
+  accounts: any = [];
+
   constructor (private ApiService: ApiService) {
     // This was set because we have used user data in some forms in this page
     // You also can copy and putting this in other components
@@ -25,6 +27,12 @@ export class Home {
     const userName = JSON.stringify(data["name"]);
     this.id = parseInt(strId) ?? 0;
     this.userName = userName ?? null;
+
+    // Getting user accounts
+    this.ApiService.getAccounts(this.id).subscribe(res => {
+      console.log(res.message);
+      this.accounts = res.message;
+    })
   }
 
   onSubmit(formData: any) {

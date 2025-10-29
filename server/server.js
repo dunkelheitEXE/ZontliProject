@@ -35,8 +35,28 @@ const authenticateToken = (req, res, next) => {
 };
 
 // Define your API routes
-app.get('/api/data', (req, res) => {
-    res.json({ message: 'Data from Express API' });
+app.get('/api/accounts/:user', async (req, res) => {
+    const userId = req.params.user;
+    const query = "SELECT * FROM accounts WHERE user_id = ?";
+    try {
+        const [rows, fields] = await database.execute(query, [userId]);
+        if(rows) {
+            res.status(201).json({
+                success: true,
+                message: rows
+            });
+        } else {
+            res.status(401).json({
+                success: false,
+                message: "Nothing to do"
+            });
+        }
+    } catch (error) {
+        res.status(401).json({
+            success: false,
+            message: "Something has gone wrong in server, it is not your fault"
+        });
+    }
 });
 
 app.post('/api/signup', async (req, res) => {
@@ -160,6 +180,28 @@ app.post("/api/addAccount", (req, res) => {
         res.status(401).json({
             success: false,
             message: "There is an error: " + error
+        });
+    }
+});
+
+app.post("/api/transfer", (req, res) => {
+    // const [accountName, accountId, amount, description = ""] = req.body
+    const formSent = req.body;
+    if(formSent) {
+        console.log(formSent[0]);
+
+        const query = "CALL doTransfer(?, ?, ?, ?)";
+        database.query(query, [formSent[0].amount, formSent[0].accountFrom, formSent[0].accountTo, formSent[0].description]);
+        
+        res.status(201).json({
+            success: true,
+            message: "Data was sent successfully"
+        });
+
+    } else {
+        res.status(401).json({
+            success: false,
+            message: "Data has not sent"
         });
     }
 });
