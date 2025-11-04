@@ -7,8 +7,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken'); // You'll need to install this: npm install jsonwebtoken
 
 const mailer = require('nodemailer');
-require('dotenv').config({path: '/home/alangrajeda/codding/gitrepos/ZontliProject/server/.env'});
-
+require("dotenv").config({path: '../.env'});
 
 const JWT_SECRET = process.env.JWT_SECRET || 'fish-bash-kitty';
 
@@ -206,31 +205,61 @@ app.post("/api/transfer", (req, res) => {
     }
 });
 
-app.post("/api/testemail", (req, res) => {
-    const transport = mailer.createTransport({
-        host: 'sandbox.smtp.mailtrap.io',
-        port: '2525',
-        secure: false,
-        auth: {
-            user: process.env.MAILUSER,
-            pass: process.env.MAILPASSWORD,
-        }
-    });
+app.post("/api/testemail", async (req, res) => {
+    try {
+        const form = req.body;
+        const query = "SELECT * FROM user WHERE user_id = (SELECT user_id FROM accounts WHERE account_id = ?);"
+        const [rows, fields] = await database.execute(query, [form[0].accountFrom])
+        const emailFrom = rows[0].email;
+        const amountRecived = form[0].amount;
+        const [rowsTo, fieldsTo] = await database.execute(query, [form[0].accountTo])
+        const emailTo = rowsTo[0].email;
+        console.log(emailFrom + " - To: " + emailTo);
 
-    const mailOptions = {
-        from: "your_verified_sender@example.com",
-        to: "recipient@example.com",
-        subject: "Test Email from Node.js with Nodemailer and Mailtrap",
-        text: "This is a test email sent via Nodemailer and Mailtrap SMTP.",
-    };
+        const transport = mailer.createTransport({
+            host: 'sandbox.smtp.mailtrap.io',
+            port: '2525',
+            secure: false,
+            auth: {
+                user: process.env.MAILUSER,
+                pass: process.env.MAILPASSWORD,
+            }
+        });
 
-    transport.sendMail(mailOptions, (error, info) => {
-        if (error) {
-        console.log(error);
-        } else {
-        console.log("Email sent: " + info.response);
-        }
-    });
+        const mailOptions = {
+            from: emailFrom,
+            to: emailTo,
+            subject: `The user ${emailFrom} has sent some money`,
+            text: `You have recived $ ${amountRecived} :D`,
+        };
+
+        transport.sendMail(mailOptions, function(error) {
+            if(error) {
+                console.error(error);
+            } else {
+                console.log("Email sent !!!");
+            }
+        })
+
+        res.status(400).json({
+            success: true,
+            message: "GOOD: "
+        });
+    }catch (err) {
+        console.error(err);
+        res.status(201).json({
+            success: false,
+            message: "Something went wrong: " + err
+        });
+    }
+
+    // transport.sendMail(mailOptions, (error, info) => {
+    //     if (error) {
+    //     console.log(error);
+    //     } else {
+    //     console.log("Email sent: " + info.response);
+    //     }
+    // });
 });
 
 // Start the server

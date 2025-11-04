@@ -39,5 +39,8 @@ export class Transfers {
     this.apiService.transfer(formu).subscribe(res => {
       console.log(res);
     });
+    this.apiService.email(form["form"].value).subscribe(res => {
+      console.log(res);
+    });
   }
 }

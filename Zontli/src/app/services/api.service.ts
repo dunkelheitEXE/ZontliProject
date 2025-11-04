@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 
 export class ApiService {
   private apiUrl = 'http://localhost:3000/api'; // Adjust port if needed
-  
+
   constructor(private http: HttpClient) { }
 
   getData(): Observable<any> {
@@ -37,7 +37,7 @@ export class ApiService {
   }
 
   email(item: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/testemail`, item);
+    return this.http.post(`${this.apiUrl}/testemail`, [item]);
   }
 
   getAccounts(userId: any): Observable<any> {
