@@ -9,6 +9,8 @@ import { Injectable } from '@angular/core';
 import { CanActivate, Router, UrlTree } from '@angular/router';
 import { AuthService } from './services/auth.service';
 import { Transfers } from './transfers/transfers';
+import { AccountState } from './account-state/account-state';
+import { Payment } from './payment/payment';
 
 @Injectable({
   providedIn: 'root'
@@ -42,8 +44,8 @@ export class PreventAuthGuard implements CanActivate {
 
 export const routes: Routes = [
     {
-        path: '', 
-        component: AuthLayout, 
+        path: '',
+        component: AuthLayout,
         canActivate: [PreventAuthGuard],
         children: [
             { path: "", component: Login},
@@ -55,7 +57,9 @@ export const routes: Routes = [
         canActivate: [AuthGuard],
         children: [
             { path: "", component: Home },
-            { path: "transfers", component: Transfers }
+            { path: "transfers", component: Transfers },
+            { path: "com/:user", component: Payment},
+            { path: "accountStatement/:user_id/:account_id", component: AccountState }
         ]
     }
 ];

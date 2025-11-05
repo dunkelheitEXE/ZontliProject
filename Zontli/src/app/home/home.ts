@@ -53,4 +53,7 @@ export class Home {
       }
     });
   }
+
+  viewState(account_id: any) {
+  }
 }

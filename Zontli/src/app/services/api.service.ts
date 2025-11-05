@@ -40,7 +40,23 @@ export class ApiService {
     return this.http.post(`${this.apiUrl}/testemail`, [item]);
   }
 
+  getStatement(item: any): Observable<any> {
+    return this.http.get(`${this.apiUrl}/accountStatement/${item}`);
+  }
+
+  getUserData(user: any): Observable<any> {
+    return this.http.get(`${this.apiUrl}/getUser/${user}`);
+  }
+
+  getAccountData(account: any): Observable<any> {
+    return this.http.get(`${this.apiUrl}/getAccount/${account}`);
+  }
+
   getAccounts(userId: any): Observable<any> {
     return this.http.get(`${this.apiUrl}/accounts/${userId}`);
+  }
+
+  getLastMovement(user: any): Observable<any> {
+    return this.http.get(`${this.apiUrl}/getLastMovement/${user}`);
   }
 }

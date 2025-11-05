@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ApiService } from '../services/api.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-transfers',
@@ -16,7 +17,7 @@ export class Transfers {
 
   accounts: any = [];
 
-  constructor(private apiService: ApiService){
+  constructor(private apiService: ApiService, private router: Router){
     // This was set because we have used user data in some forms in this page
     // You also can copy and putting this in other components
     const userData = localStorage.getItem("currentUser");
@@ -38,9 +39,13 @@ export class Transfers {
     const formu = form["form"].value;
     this.apiService.transfer(formu).subscribe(res => {
       console.log(res);
+      alert("Transfer was sent !");
     });
     this.apiService.email(form["form"].value).subscribe(res => {
       console.log(res);
+      if(res.success) {
+        this.router.navigate([`/session/com/${this.id}`]);
+      }
     });
   }
 }

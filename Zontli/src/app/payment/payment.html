@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Confirmation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .payment {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+        .payment-cover {
+            font-size: 24px;
+            font-weight: bold;
+            color: #28a745;
+            margin-bottom: 20px;
+        }
+        .payment-cover::before {
+            content: "✓";
+            font-size: 30px;
+            color: #28a745;
+            display: block;
+            margin-bottom: 10px;
+        }
+        .payment-info ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .payment-info li {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .payment-info li:last-child {
+            border-bottom: none;
+        }
+        .payment-info li strong {
+            color: #333;
+        }
+        .print-btn {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+            width: 100%;
+        }
+        .print-btn:hover {
+            background-color: #218838;
+        }
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: #999;
+        }
+        .close-btn:hover {
+            color: #333;
+        }
+        @media (max-width: 480px) {
+            .payment {
+                margin: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="payment">
+        <button class="close-btn" (click)="returnToHome()">×</button>
+        <div class="payment-cover">
+            Transfer Done!
+        </div>
+        <div class="payment-info">
+            <ul>
+                <li><strong>Amount:</strong> ${{ data.amount }}</li>
+                <li><strong>Date:</strong> ${{ data.date }}</li>
+                <li><strong>To:</strong> John Doe</li>
+            </ul>
+        </div>
+        <button class="print-btn" onclick="printPage()">Print</button>
+    </div>
+</body>
+</html>

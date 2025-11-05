@@ -225,12 +225,25 @@ app.post("/api/testemail", async (req, res) => {
                 pass: process.env.MAILPASSWORD,
             }
         });
+        
 
         const mailOptions = {
             from: emailFrom,
             to: emailTo,
-            subject: `The user ${emailFrom} has sent some money`,
-            text: `You have recived $ ${amountRecived} :D`,
+            subject: `Transaction Notification - Funds Received from ${emailFrom}`,
+            text: `Dear User,
+
+            We are writing to inform you that a transaction has been successfully completed.
+
+            Transaction Details:
+            - Amount Received: $${amountRecived}
+            - Sender: ${emailFrom}
+            - Date: ${new Date().toLocaleString()}
+
+            If you have any questions or concerns regarding this transaction, please do not hesitate to contact our support team.
+
+            Best regards,
+            Payment Services Team`,
         };
 
         transport.sendMail(mailOptions, function(error) {
@@ -241,25 +254,94 @@ app.post("/api/testemail", async (req, res) => {
             }
         })
 
-        res.status(400).json({
+
+
+        res.status(201).json({
             success: true,
             message: "GOOD: "
         });
     }catch (err) {
         console.error(err);
-        res.status(201).json({
+        res.status(401).json({
             success: false,
             message: "Something went wrong: " + err
         });
     }
+});
 
-    // transport.sendMail(mailOptions, (error, info) => {
-    //     if (error) {
-    //     console.log(error);
-    //     } else {
-    //     console.log("Email sent: " + info.response);
-    //     }
-    // });
+app.get("/api/accountStatement/:account", async (req, res) => {
+    try {
+        const user = req.params.account;
+        const query = "SELECT * FROM movements WHERE source_account_id = ?";
+        const [rows, fields] = await database.execute(query, [user]);
+        // console.log(rows);
+        res.status(201).json({
+            success: true,
+            message: rows
+        });
+    } catch (err) {
+        res.status(401).json({
+            success: false,
+            message: "Something has gone wrong: " + err
+        });
+    }
+});
+
+
+app.get("/api/getUser/:user", async (req, res) => {
+    try {
+        const userId = req.params.user;
+        const query = "SELECT * FROM user WHERE user_id = ?"
+        const [rows, fields] = await database.execute(query, [userId]);
+        console.log("USER GOTTEN !");
+        res.status(201).json({
+            success: true,
+            message: rows
+        });
+    } catch (err) {
+        console.log(err);
+        res.status(401).json({
+            success: false,
+            message: err
+        });
+    }
+});
+
+
+app.get("/api/getAccount/:account", async (req, res) => {
+    try {
+        const accountId = req.params.account;
+        const query = "SELECT * FROM accounts WHERE account_id = ?";
+        const [rows ,fields] = await database.execute(query, [accountId]);
+        console.log("ACCOUNT DATA GOTTEN !");
+        res.status(201).json({
+            success: true,
+            message: rows
+        });
+    } catch (err) {
+        console.log("Something has gone wrong");
+        res.status(401).json({
+            success: false,
+            message: err
+        });
+    }
+});
+
+app.get("/api/getLastMovement/:user", async (req,res) => {
+    try {
+        const user = req.params.user;
+        const query = "SELECT * FROM movements WHERE source_account_id = ? ORDER BY date DESC LIMIT 1";
+        const [rows, fields] = await database.execute(query, [user]);
+        res.status(201).json({
+            success: true,
+            message: rows
+        });
+    } catch (err) {
+        res.status(401).json({
+            success: false,
+            message: err
+        });
+    }
 });
 
 // Start the server

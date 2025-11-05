@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Zontli - Home</title>
-  
+
   <!-- Google Fonts: Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,14 +13,14 @@
 <body>
   <style>
     .newAccountContainer{
-      position: fixed; 
+      position: fixed;
       background-color: #cacaca;
-      width: 100%; 
-      height: 100vh; 
-      display: flex; 
-      justify-content: center; 
-      align-items: center; 
-      top: 0; 
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      top: 0;
       left: 0;
       z-index: 50;
     }
@@ -74,7 +74,7 @@
 
   <div class="main-container">
     <h1 class="main-title">Home</h1>
-    
+
     <div class="grid-container">
       <!-- Sección: Mis Cuentas -->
       <section class="accounts-section">
@@ -87,6 +87,7 @@
               <p>**** 1234</p>
             </div>
             <div class="balance">{{item["balance"]}}</div>
+            <a href="session/accountStatement/{{ id }}/{{ item['account_id'] }}">Get Account Statement</a>
           </div>
         </div>
       </section>

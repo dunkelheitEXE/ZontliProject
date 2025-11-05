@@ -9,3 +9,11 @@ document.addEventListener("keydown", e => {
         form[0].classList.toggle("inactive");
     }
 });
+
+
+function states(res) {
+  let text = "";
+  res.forEach((element) => {
+    text += JSON.stringify(element) + "\n";
+  });
+}

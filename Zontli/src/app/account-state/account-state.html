@@ -1,0 +1,38 @@
+<p>account-state works!</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Statement</title>
+</head>
+<body>
+    <h1>Account Statement</h1>
+    <div class="account-info">
+        <p><strong>Account Holder: </strong>{{ userData.name }}</p>
+        <p><strong>Account Number: </strong>{{ accountId }}</p>
+        <p><strong>Statement Period: </strong>{{ userData.register_date }}</p>
+        <p><strong>Current Balance: </strong>${{ accountData.balance }}</p>
+    </div>
+
+    <h2>Transactions</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Description</th>
+                <th>Amount</th>
+                <th>Balance</th>
+            </tr>
+        </thead>
+        <tbody *ngFor="let movement of movements">
+            <tr>
+                <td>{{ movement.date }}</td>
+                <td>{{ movement.destination_account_id }}</td>
+                <td class="debit">-${{ movement.amount }}</td>
+                <td>{{ movement.movement_type }}</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

@@ -4,3 +4,11 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("offCanvas").classList.toggle("visible");
     });
 });
+
+
+// Function to print a page in PDF
+
+function printPage() {
+  window.print();
+}
+
