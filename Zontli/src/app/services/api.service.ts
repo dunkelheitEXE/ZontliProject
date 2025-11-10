@@ -59,4 +59,16 @@ export class ApiService {
   getLastMovement(user: any): Observable<any> {
     return this.http.get(`${this.apiUrl}/getLastMovement/${user}`);
   }
+
+  getUserAccount(user: any): Observable<any> {
+    return this.http.get(`${this.apiUrl}/getUserAccount/${user}`);
+  }
+
+  sendEmailToRecoverPassword(form: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/forgot-password`, form);
+  }
+
+  resetPassword(token: any, password: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/resetPassword`, [token, password]);
+  }
 }

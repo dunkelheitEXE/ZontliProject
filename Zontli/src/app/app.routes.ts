@@ -11,6 +11,8 @@ import { AuthService } from './services/auth.service';
 import { Transfers } from './transfers/transfers';
 import { AccountState } from './account-state/account-state';
 import { Payment } from './payment/payment';
+import { Forgot } from './forgot/forgot';
+import { Recovery } from './recovery/recovery';
 
 @Injectable({
   providedIn: 'root'
@@ -49,7 +51,9 @@ export const routes: Routes = [
         canActivate: [PreventAuthGuard],
         children: [
             { path: "", component: Login},
-            { path: "signup", component: Signup }
+            { path: "signup", component: Signup },
+            { path: "forgotPassword", component: Forgot },
+            { path: "reset-password", component: Recovery }
         ]
     }, {
         path: 'session',

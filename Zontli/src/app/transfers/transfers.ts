@@ -37,15 +37,31 @@ export class Transfers {
   onSubmit(form: any) {
     console.log(form["form"].value);
     const formu = form["form"].value;
-    this.apiService.transfer(formu).subscribe(res => {
-      console.log(res);
-      alert("Transfer was sent !");
-    });
-    this.apiService.email(form["form"].value).subscribe(res => {
-      console.log(res);
-      if(res.success) {
-        this.router.navigate([`/session/com/${this.id}`]);
+
+    this.apiService.transfer(formu).subscribe({
+      next: () => {
+        alert("Transfer was sent !");
+        this.apiService.email(form["form"].value).subscribe({
+          next: ()=> {
+            this.router.navigate([`/session/com/${this.id}`]);
+          },
+          error: ()=>{
+            alert("Email has not sent, SOmething is wring");
+          }
+        });
+      },
+      error: ()=>{
+        alert("Something is missing or receiver account does not exist");
       }
-    });
+    })
+
+    // this.apiService.transfer(formu).subscribe(res => {
+    //   if(res.success) {
+    //     alert("Transfer was sent !");
+    //   } else {
+    //     console.log("ERROR");
+    //     alert("The account that you are trying to send does not exist");
+    //   }
+    // });
   }
 }

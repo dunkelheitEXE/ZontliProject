@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ApiService } from '../services/api.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -18,7 +19,7 @@ export class Home {
 
   accounts: any = [];
 
-  constructor (private ApiService: ApiService) {
+  constructor (private ApiService: ApiService, private router: Router) {
     // This was set because we have used user data in some forms in this page
     // You also can copy and putting this in other components
     const userData = localStorage.getItem("currentUser");
@@ -44,6 +45,7 @@ export class Home {
           console.log("DATA VERIFIED: " + res.message);
           const form = document.getElementsByClassName("newAccountContainer");
           form[0].classList.toggle("inactive");
+          window.location.reload();
         } else {
           console.log("Something has gone wrong with database");
         }

@@ -75,7 +75,7 @@ CREATE TABLE movements(
   amount DECIMAL(15,2) NOT NULL,
   date DATETIME NOT NULL,
   concept VARCHAR(255) NOT NULL,
-  movement_type ENUM('deposit','withdrawal','transfer') NOT NULL,
+  movement_type ENUM('deposit','withdrawal','transfer','initial balance') NOT NULL,
   status BOOLEAN NOT NULL DEFAULT FALSE,
   PRIMARY KEY(movement_id),
   FOREIGN KEY(source_account_id) REFERENCES accounts(account_id),

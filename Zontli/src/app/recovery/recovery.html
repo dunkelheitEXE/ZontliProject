@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Zontli - Login</title>
+  <title>Zontli - Reset Password</title>
 
   <style>
     body {
@@ -34,7 +34,14 @@
 
     .login-container h1 {
       font-size: 36px;
+      margin-bottom: 10px;
+    }
+
+    .login-container p {
+      font-size: 14px;
+      color: #666;
       margin-bottom: 25px;
+      line-height: 1.5;
     }
 
     .login-container input {
@@ -46,18 +53,6 @@
       font-size: 14px;
     }
 
-    .login-container a {
-      display: block;
-      font-size: 13px;
-      margin: 5px 0 15px 0;
-      text-decoration: none;
-      color: #007bff;
-    }
-
-    .login-container a:hover {
-      text-decoration: underline;
-    }
-
     .login-container button {
       width: 100%;
       padding: 12px;
@@ -67,6 +62,7 @@
       color: white;
       font-size: 16px;
       cursor: pointer;
+      margin-top: 10px;
     }
 
     .login-container button:hover {
@@ -97,15 +93,16 @@
 
     <h1>Zontli</h1>
 
-    <form (ngSubmit)="onSubmit(loginForm)" #loginForm="ngForm">
-      <input type="text" placeholder="Username" name="email" id="email" ngModel required #email="ngModel">
-      <input type="password" placeholder="Password" name="password" id="password" ngModel required #password="ngModel">
-      <a href="forgotPassword">Forgot Password?</a>
-      <button type="submit">Login</button>
+    <p>Enter your new password below to reset your account password.</p>
+
+    <form (ngSubmit)="onSubmit(resetForm)" #resetForm="ngForm">
+      <input type="password" placeholder="New Password" name="password" id="password" ngModel required #password="ngModel">
+      <input type="password" placeholder="Confirm New Password" name="confirmPassword" id="confirmPassword" ngModel required #confirmPassword="ngModel">
+      <button type="submit">Reset Password</button>
     </form>
 
     <div class="signup-text">
-      Don't have an account? <a href="signup">Sign Up</a>
+      Remember your password? <a href="/">Back to Login</a>
     </div>
   </div>
 </body>
