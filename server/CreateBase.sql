@@ -4,6 +4,12 @@ DROP DATABASE zontli;
 
 USE zontli;
 
+CREATE TABLE admins (
+  admin_id BIGINT NOT NULL AUTO_INCREMENT,
+  username VARCHAR(255) NOT NULL,
+  password VARCHAR(255)
+);
+
 CREATE TABLE user(
   user_id BIGINT NOT NULL AUTO_INCREMENT,
   name VARCHAR(255) NOT NULL,

@@ -1,1 +1,25 @@
-<p>admin-login works!</p>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zontli - Login</title>
+</head>
+
+<body>
+  <div class="login-container">
+
+    <img src="imgs/logo.png" alt="Logo">
+
+    <h1>Zontli</h1>
+
+    <form (ngSubmit)="onSubmit(loginForm)" #loginForm="ngForm">
+      <input type="text" placeholder="Username" name="username" id="username" ngModel required #username="ngModel">
+      <input type="password" placeholder="Password" name="password" id="password" ngModel required #password="ngModel">
+      <button type="submit">Login</button>
+    </form>
+  </div>
+</body>
+
+</html>

@@ -566,6 +566,18 @@ app.post('/api/resetPassword', async (req, res) => {
     }
 });
 
+app.post('/api/create-admin', (req, res) => {
+    try {
+        const query = "INSERT INTO "
+    } catch(err) {
+        console.error(err)
+        res.status(500).json({
+            success: false,
+            message: "Internal Server Error"
+        });
+    }
+});
+
 // Start the server
 app.listen(PORT, () => {
     console.log(`Express API listening on port http://localhost:${PORT}`);
