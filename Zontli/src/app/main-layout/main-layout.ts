@@ -13,7 +13,7 @@ export class MainLayout {
   constructor (private authService: AuthService) {
     const gettingUser = localStorage.getItem("currentUser") ?? "";
     const userr = JSON.parse(gettingUser);
-    this.userIconName = userr["name"] ?? "";
+    this.userIconName = userr[0]["name"] ?? "";
   }
   onLogout() : void {
     this.authService.logout();

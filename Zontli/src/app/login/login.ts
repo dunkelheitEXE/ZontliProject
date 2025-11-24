@@ -24,7 +24,11 @@ export class Login {
     // this.apiService.login(data).subscribe(res => console.log(res.message));
     this.authService.login(data["email"], data["password"]).subscribe({
       next: (res) => {
-        console.log(res.message);
+        if (res.success) {
+          console.log("Well done");
+        } else {
+          console.error(res.message);
+        }
         // Manejar éxito
       },
       error: (error) => {

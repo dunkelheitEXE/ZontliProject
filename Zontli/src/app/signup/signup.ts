@@ -29,12 +29,13 @@ export class Signup {
   constructor (private apiService : ApiService, private router: Router) {}
 
   onSubmit(formValue: any) : void {
-    this.apiService.signup(formValue["form"].value).subscribe(response => {
-      console.log(response.message)
-      if (response.registered == true) {
-        this.router.navigate([""]);
-      } else {
-        alert("Try Again");
+    this.apiService.signup(formValue["form"].value).subscribe({
+      next: (response) => {
+        if(response.success) {
+          this.router.navigate(['']);
+        } else {
+          alert(response.message);
+        }
       }
     });
   }

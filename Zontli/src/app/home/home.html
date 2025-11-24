@@ -52,6 +52,33 @@
       background-color: #cecece;
     }
 
+    .endAccountElement {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .endAccountElement > button {
+      border: 0;
+      box-shadow: 1px 1px 4px #4d4d4d;
+      padding: 3px;
+      margin: 10px 0;
+      border-radius: 5px;
+      font-size: 1rem;
+      font-weight: bold;
+    }
+
+    .endAccountElement > button.inProgress {
+      background-color: #cc5353;
+      color: #e4e4e4;
+    }
+
+    .endAccountElement > button.activated {
+      background-color: #26a766;
+      color: #e4e4e4;
+    }
+
     .inactive {
       display: none;
     }
@@ -87,7 +114,10 @@
               <p>**** 1234</p>
             </div>
             <div class="balance">{{item["balance"]}}</div>
-            <a href="session/accountStatement/{{ id }}/{{ item['account_id'] }}">Get Account Statement</a>
+            <div class="endAccountElement">
+              <a href="session/accountStatement/{{ id }}/{{ item['account_id'] }}">Get Account Statement</a>
+              <button class="{{ item['status'] ? 'activated' : 'inProgress'}}">{{ item["status"] ? "Activated" : "In Progress"}}</button>
+            </div>
           </div>
         </div>
       </section>

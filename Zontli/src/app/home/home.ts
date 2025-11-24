@@ -24,8 +24,8 @@ export class Home {
     // You also can copy and putting this in other components
     const userData = localStorage.getItem("currentUser");
     const data = userData ? JSON.parse(userData) : null;
-    const strId = JSON.stringify(data["user_id"]);
-    const userName = JSON.stringify(data["name"]);
+    const strId = JSON.stringify(data[0]["user_id"]);
+    const userName = JSON.stringify(data[0]["name"]);
     this.id = parseInt(strId) ?? 0;
     this.userName = userName ?? null;
 
