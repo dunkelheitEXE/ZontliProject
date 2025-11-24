@@ -65,17 +65,20 @@ app.post('/api/signup', async (req, res) => {
         const hashedPassword = await bcrypt.hash(newUser['password'], salt);
         database.query('INSERT INTO user (name, last_name, birth_date, curp, email, phone_number, password, register_date) VALUES(?, ?, ?, ?, ?, ?, ?, NOW())',
             [newUser['fullName'], newUser['fullName'], newUser['date'], newUser['rfc'], newUser['email'], newUser['phoneNumber'], hashedPassword],
-            (error, results) => {
-                if(error) {
-                    console.error(error);
-                } else {
-                    console.log("User sent");
-                }
-            }
-        )
-        res.json({ message: newUser, registered: true});
+        ).then((results) => {
+            res.status(201).json({
+                'success': true,
+                'message': newUser
+            });
+        }).catch(err => {
+            res.status(401).json({
+                'success': false,
+                'message': 'Something has gone wrong: ' + err
+            });
+        });
+        // res.json({ message: newUser, registered: true});
     } catch (e) {
-        res.status(500).json({message: e, registered: false});
+        res.status(501).json({ 'success': false, 'message': "Internal Server Error"});
     }
 });
 
@@ -92,59 +95,65 @@ app.post('/api/login', async (req, res) => {
         // Validate input
         if (!email || !password) {
             return res.status(400).json({ 
-                success: false, 
-                message: 'Email and password are required' 
+                'success': false, 
+                'message': 'Email and password are required' 
             });
         }
         
         // Query to find user by email
         const query = "SELECT * FROM user WHERE email = ?";
-        const [rows] = await database.query(query, [email]);
-        // console.log(rows[0]);
+        await database.query(query, [email]).then((rows)=>{
+            const length = Object.keys(rows[0]).length;
+            if(length === 0) {
+                return res.status(401).json({
+                    'success': false,
+                    'message': "Credentials do not match with any registered"
+                });
+            } else {
+                let userData = rows[0][0];
+                bcrypt.compare(password, userData.password).then(valid => {
+                    if (!valid) {
+                        console.error("Password does not match");
+                        return res.status(402).json({
+                            'success': false,
+                            'message': "Password does not match, please, check your sums"
+                        });
+                    } else {
+                        // If ALL IS GOING well
+                        const token = jwt.sign(
+                            { 
+                                userId: userData["user_id"], 
+                                email: userData["email"]
+                            },
+                            JWT_SECRET,
+                            { expiresIn: '24h' }
+                        );
+                        const { password: _, ...userWithoutPassword } = rows[0];
 
-        // To check if password matchs
-        const length = Object.keys(rows).length;
-        if (length === 0) {
-            return res.status(401).json({
+                        const sanitizedUser = JSON.parse(JSON.stringify(userWithoutPassword, (key, value) =>
+                            typeof value === 'bigint' ? value.toString() : value
+                        ));
+                        
+                        return res.status(201).json({ 
+                            'success': true, 
+                            'message': 'Login successful',
+                            'user': sanitizedUser,
+                            'token': token
+                        });
+
+                    }
+                }).catch(pswErr => {
+                    return res.status(503).json({
+                        'success': false,
+                        'message': "Internal server error. " + pswErr
+                    });
+                });
+            }
+        }).catch(errno => {
+            return res.status(502).json({
                 'success': false,
-                'message': 'Any user was found'
+                'message': "Internal server error. " + errno
             });
-        }
-
-        const isPasswordValid = await bcrypt.compare(password, rows[0]['password']);
-        
-        if (!isPasswordValid) {
-            console.error("Password is not valid");
-            return res.status(401).json({ 
-                success: false, 
-                message: 'Invalid email or password' 
-            });
-        }
-
-        // Generate JWT token
-        const token = jwt.sign(
-            { 
-                userId: rows[0]["user_id"], 
-                email: rows[0]["email"]
-            },
-            JWT_SECRET,
-            { expiresIn: '24h' }
-        );
-
-
-        // Login successful - remove password from response
-        const { password: _, ...userWithoutPassword } = rows[0];
-        
-        // Convert BigInt values to strings to avoid serialization issues
-        const sanitizedUser = JSON.parse(JSON.stringify(userWithoutPassword, (key, value) =>
-            typeof value === 'bigint' ? value.toString() : value
-        ));
-        
-        res.json({ 
-            success: true, 
-            message: 'Login successful',
-            user: sanitizedUser,
-            token: token
         });
 
     } catch (error) {
@@ -161,7 +170,7 @@ app.post("/api/addAccount", (req, res) => {
         const [userId, type, balance, creditLimit=null] = req.body;
         console.log(req.body);
         if (userId && type && balance) {
-            const query = "INSERT INTO accounts (user_id, account_type, balance, date, opening_date, status, credit_limit) VALUES(?, ?, ?, NOW(), NOW(), 1, ?)";
+            const query = "INSERT INTO accounts (user_id, account_type, balance, date, opening_date, status, credit_limit) VALUES(?, ?, ?, NOW(), NOW(), 0, ?)";
             database.query(query, [userId, type, balance, creditLimit]).then(() => {
                 const getLast = "SELECT * FROM accounts WHERE user_id = ? ORDER BY date DESC LIMIT 1";
                 database.query(getLast, [userId]).then(account => {
@@ -169,23 +178,33 @@ app.post("/api/addAccount", (req, res) => {
                     const query2 = "INSERT INTO movements (source_account_id,destination_account_id,amount,date,concept,movement_type,status)VALUES (?, ?, ?, NOW(), 'Account Created', 'initial balance', 1)";
 
                     database.query(query2, [accountToSaveMovement, accountToSaveMovement, balance]);
+                }).catch(eje => {
+                    return res.status(410).json({
+                        'success': false,
+                        'message': eje
+                    });
                 });
-            });
 
-            res.status(201).json({
-                success: true,
-                message: "Recived Data from user: " + userId
+                res.status(201).json({
+                    success: true,
+                    message: "Recived Data from user: " + userId
+                });
+            }).catch(erno => {
+                return res.status(501).json({
+                    'success': false,
+                    'message': erno
+                });
             });
         } else {
             console.log("Data is not recived");
-            res.status(201).json({
+            res.status(404).json({
                 success: false,
                 message: "Something has gone wrong"
             });
         }
     } catch (error) {
         console.log(error);
-        res.status(401).json({
+        res.status(405).json({
             success: false,
             message: "There is an error: " + error
         });
