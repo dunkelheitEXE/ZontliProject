@@ -56,6 +56,10 @@ export class ApiService {
     return this.http.get(`${this.apiUrl}/accounts/${userId}`);
   }
 
+  getAllAccounts(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/getAllAccounts`);
+  }
+
   getLastMovement(user: any): Observable<any> {
     return this.http.get(`${this.apiUrl}/getLastMovement/${user}`);
   }

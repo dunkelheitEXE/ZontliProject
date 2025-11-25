@@ -61,42 +61,20 @@
       <!-- Pending Approvals -->
       <div class="card col-span-2">
         <h2 class="section-title">Cuentas Pendientes de Aprobación</h2>
-        <div class="pending-list">
+        <div class="pending-list" *ngFor="let item of accounts">
+
           <div class="pending-item">
             <div class="pending-details">
-              <p>Juan Pérez Martínez</p>
-              <p>Cuenta de Débito - ID: 4521 • Solicitud: 20/11/2025</p>
+              <p>{{item.name}}</p>
+              <p>{{item.account_type}} Account - ID: {{item.account_id}} • Solicitud: {{item.register_date}}</p>
             </div>
             <div class="pending-actions">
-              <button class="btn btn-view">Ver detalles</button>
+              <!-- <button class="btn btn-view">Ver detalles</button> -->
               <button class="btn btn-approve">Aprobar</button>
               <button class="btn btn-reject">Rechazar</button>
             </div>
           </div>
 
-          <div class="pending-item">
-            <div class="pending-details">
-              <p>Ana Laura Rodríguez</p>
-              <p>Cuenta de Crédito - ID: 4522 • Solicitud: 20/11/2025</p>
-            </div>
-            <div class="pending-actions">
-              <button class="btn btn-view">Ver detalles</button>
-              <button class="btn btn-approve">Aprobar</button>
-              <button class="btn btn-reject">Rechazar</button>
-            </div>
-          </div>
-
-          <div class="pending-item">
-            <div class="pending-details">
-              <p>Carlos Sánchez López</p>
-              <p>Cuenta de Débito - ID: 4523 • Solicitud: 19/11/2025</p>
-            </div>
-            <div class="pending-actions">
-              <button class="btn btn-view">Ver detalles</button>
-              <button class="btn btn-approve">Aprobar</button>
-              <button class="btn btn-reject">Rechazar</button>
-            </div>
-          </div>
         </div>
       </div>
 

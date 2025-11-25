@@ -678,6 +678,31 @@ app.post('/api/login-admin', async (req, res) => {
     }
 });
 
+app.get('/api/getAllAccounts', (req, res) => {
+    const query = "SELECT * FROM accounts LEFT JOIN user ON accounts.user_id = user.user_id";
+    try{
+        database.query(query).then(result => {
+            res.status(201).json({
+                'success': true,
+                'message': "Data gotten successfully",
+                'data': result
+            });
+        }).catch(erno => {
+            console.log(erno)
+            res.status(501).json({
+                'success': false,
+                'message': "Server error, check your queries: "
+            });
+        });
+    } catch (e) {
+        console.log(e)
+        res.status(505).json({
+            'success': false,
+            'message': "Internal server Error"
+        });
+    }
+});
+
 // Start the server
 app.listen(PORT, () => {
     console.log(`Express API listening on port http://localhost:${PORT}`);
