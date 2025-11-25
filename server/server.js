@@ -585,14 +585,95 @@ app.post('/api/resetPassword', async (req, res) => {
     }
 });
 
-app.post('/api/create-admin', (req, res) => {
+app.post('/api/create-admin', async (req, res) => {
     try {
-        const query = "INSERT INTO "
+        const { email, password, name } = req.body;
+        
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
+        
+        const query = "INSERT INTO admins (email, password, name) VALUES (?, ?, ?)";
+        await database.query(query, [email, hashedPassword, name]);
+        
+        res.status(201).json({
+            success: true,
+            message: "Admin created successfully"
+        });
     } catch(err) {
-        console.error(err)
+        console.error(err);
         res.status(500).json({
             success: false,
             message: "Internal Server Error"
+        });
+    }
+});
+
+app.post('/api/login-admin', async (req, res) => {
+    try {
+        const { email, password } = req.body;
+
+        // Validate input
+        if (!email || !password) {
+            return res.status(400).json({ 
+                'success': false, 
+                'message': 'Email and password are required' 
+            });
+        }
+        
+        // Query to find admin by email
+        const query = "SELECT * FROM admins WHERE email = ?";
+        const [rows] = await database.query(query, [email]);
+        
+        if (rows.length === 0) {
+            return res.status(401).json({
+                'success': false,
+                'message': "Invalid credentials"
+            });
+        }
+        
+        const adminData = rows[0];
+        
+        // Compare password
+        const isValidPassword = await bcrypt.compare(password, adminData.password);
+        
+        if (!isValidPassword) {
+            return res.status(401).json({
+                'success': false,
+                'message': "Invalid credentials"
+            });
+        }
+        
+        // Generate JWT token with admin role
+        const token = jwt.sign(
+            { 
+                adminId: adminData.admin_id,
+                email: adminData.email,
+                role: 'admin'
+            },
+            JWT_SECRET,
+            { expiresIn: '24h' }
+        );
+        
+        // Remove password from response
+        const { password: _, ...adminWithoutPassword } = adminData;
+        
+        // Sanitize BigInt if needed
+        const sanitizedAdmin = JSON.parse(JSON.stringify(adminWithoutPassword, (key, value) =>
+            typeof value === 'bigint' ? value.toString() : value
+        ));
+        
+        return res.status(200).json({ 
+            'success': true, 
+            'message': 'Admin login successful',
+            'admin': sanitizedAdmin,
+            'token': token
+        });
+        
+    } catch (error) {
+        console.error('Admin login error:', error);
+        return res.status(500).json({
+            'success': false,
+            'message': 'Internal server error'
         });
     }
 });

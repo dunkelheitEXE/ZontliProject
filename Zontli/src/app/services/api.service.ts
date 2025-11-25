@@ -64,6 +64,10 @@ export class ApiService {
     return this.http.get(`${this.apiUrl}/getUserAccount/${user}`);
   }
 
+  createAdminAccount(form: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/create-admin`, form);
+  }
+
   sendEmailToRecoverPassword(form: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/forgot-password`, form);
   }

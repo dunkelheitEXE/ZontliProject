@@ -13,6 +13,26 @@ import { AccountState } from './account-state/account-state';
 import { Payment } from './payment/payment';
 import { Forgot } from './forgot/forgot';
 import { Recovery } from './recovery/recovery';
+import { AdminLogin } from './admin-login/admin-login';
+import { AdminLayout } from './admin-layout/admin-layout';
+import { Dashboard } from './admin/dashboard/dashboard';
+import { AdminAuthService } from './services/admin/admin-auth.service';
+import { AdminSignup } from './admin-signup/admin-signup';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class AdminGuard implements CanActivate {
+  constructor(private adminAuth: AdminAuthService, private router: Router) {}
+
+  canActivate(): boolean | UrlTree {
+    if (this.adminAuth.isLoggedIn()) {
+      return true;
+    }
+    // Not logged in as admin -> redirect to admin login
+    return this.router.createUrlTree(['/login']);
+  }
+}
 
 @Injectable({
   providedIn: 'root'
@@ -53,7 +73,9 @@ export const routes: Routes = [
             { path: "", component: Login},
             { path: "signup", component: Signup },
             { path: "forgotPassword", component: Forgot },
-            { path: "reset-password", component: Recovery }
+            { path: "reset-password", component: Recovery },
+            { path: "login", component: AdminLogin },
+            { path: 'admin/signup', component: AdminSignup }
         ]
     }, {
         path: 'session',
@@ -65,9 +87,12 @@ export const routes: Routes = [
             { path: "com/:user", component: Payment},
             { path: "accountStatement/:user_id/:account_id", component: AccountState }
         ]
+    }, {
+      path: 'admin',
+      component: AdminLayout,
+      canActivate: [AdminGuard],
+      children: [
+        { path: "", component: Dashboard }
+      ]
     }
 ];
-
-
-
-

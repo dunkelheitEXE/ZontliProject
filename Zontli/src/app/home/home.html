@@ -69,7 +69,7 @@
       font-weight: bold;
     }
 
-    .endAccountElement > button.inProgress {
+    .endAccountElement > button.inProcess {
       background-color: #cc5353;
       color: #e4e4e4;
     }
@@ -116,7 +116,7 @@
             <div class="balance">{{item["balance"]}}</div>
             <div class="endAccountElement">
               <a href="session/accountStatement/{{ id }}/{{ item['account_id'] }}">Get Account Statement</a>
-              <button class="{{ item['status'] ? 'activated' : 'inProgress'}}">{{ item["status"] ? "Activated" : "In Progress"}}</button>
+              <button class="{{ item['status'] ? 'activated' : 'inProcess'}}">{{ item["status"] ? "Activated" : "In Process"}}</button>
             </div>
           </div>
         </div>
