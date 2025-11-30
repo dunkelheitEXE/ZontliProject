@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ApiService } from '../services/api.service';
@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule],
   templateUrl: './home.html',
   styleUrl: './home.css'
 })

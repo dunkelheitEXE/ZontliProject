@@ -1,11 +1,11 @@
-import { CommonModule } from '@angular/common';
+
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ApiService } from '../services/api.service';
 
 @Component({
   selector: 'app-admin-signup',
-  imports: [CommonModule, FormsModule],
+  imports: [FormsModule],
   templateUrl: './admin-signup.html',
   styleUrl: './admin-signup.css'
 })

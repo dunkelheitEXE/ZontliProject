@@ -1,11 +1,11 @@
-import { CommonModule } from '@angular/common';
+
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ApiService } from '../services/api.service';
 
 @Component({
   selector: 'app-forgot',
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule],
   templateUrl: './forgot.html',
   styleUrl: './forgot.css'
 })

@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { ApiService } from '../services/api.service';
 import { ActivatedRoute } from '@angular/router';
-import { CommonModule } from '@angular/common';
+
 
 @Component({
   selector: 'app-account-state',
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './account-state.html',
   styleUrl: './account-state.css'
 })

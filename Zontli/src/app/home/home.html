@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Zontli - Home</title>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zontli - Home</title>
 
-  <!-- Google Fonts: Inter -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-</head>
-<body>
-  <style>
-    .newAccountContainer{
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <style>
+      .newAccountContainer{
       position: fixed;
       background-color: #cacaca;
       width: 100%;
@@ -26,88 +26,89 @@
     }
 
     .createNewAccountForm {
-      width: 500px;
-      display: flex;
-      flex-direction: column;
-      padding: 12px;
-      justify-content: center;
-      align-items: start;
-      background-color: white;
-      border-radius: 10px;
-      box-shadow: 5px 5px 10px rgb(43, 43, 43);
-    }
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+    padding: 12px;
+    justify-content: center;
+    align-items: start;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 5px 5px 10px rgb(43, 43, 43);
+  }
 
-    .newAccountItem {
-      margin: 8px 0;
-      padding: 10px;
-      border: none;
-      border-radius: 5px;
-      width: 100%;
-      background-color: #dddddd;
-    }
+  .newAccountItem {
+  margin: 8px 0;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  width: 100%;
+  background-color: #dddddd;
+}
 
-    .newAccountItem:focus {
-      outline: none;
-      box-shadow: 2px 3px 5px #363636;
-      background-color: #cecece;
-    }
+.newAccountItem:focus {
+outline: none;
+box-shadow: 2px 3px 5px #363636;
+background-color: #cecece;
+}
 
-    .endAccountElement {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-    }
+.endAccountElement {
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+}
 
-    .endAccountElement > button {
-      border: 0;
-      box-shadow: 1px 1px 4px #4d4d4d;
-      padding: 3px;
-      margin: 10px 0;
-      border-radius: 5px;
-      font-size: 1rem;
-      font-weight: bold;
-    }
+.endAccountElement > button {
+border: 0;
+box-shadow: 1px 1px 4px #4d4d4d;
+padding: 3px;
+margin: 10px 0;
+border-radius: 5px;
+font-size: 1rem;
+font-weight: bold;
+}
 
-    .endAccountElement > button.inProcess {
-      background-color: #cc5353;
-      color: #e4e4e4;
-    }
+.endAccountElement > button.inProcess {
+background-color: #cc5353;
+color: #e4e4e4;
+}
 
-    .endAccountElement > button.activated {
-      background-color: #26a766;
-      color: #e4e4e4;
-    }
+.endAccountElement > button.activated {
+background-color: #26a766;
+color: #e4e4e4;
+}
 
-    .inactive {
-      display: none;
-    }
-  </style>
+.inactive {
+display: none;
+}
+</style>
 
-  <div class="newAccountContainer inactive">
-    <form class="createNewAccountForm" (ngSubmit)="onSubmit(accountForm)" #accountForm="ngForm">
-      <h3>Add New Account</h3>
-      <b>{{ userName }}</b>
-      <input type="number" name="userId" class="newAccountItem" ngModel="{{ id }}" [readonly]="isReadOnly" #userId="ngModel" style="display: none;">
-      <select name="accountType" id="accountType" class="newAccountItem" ngModel #accountType="ngModel">
-        <option value="" selected>Choose Account Type...</option>
-        <option value="debit">Debit Account</option>
-        <option value="credit">Credit Account</option>
-      </select>
-      <input type="number" name="balance" id="balance" placeholder="Initial Balance" class="newAccountItem" ngModel #balance="ngModel" />
-      <button type="submit" class="newAccountItem">Create</button>
-    </form>
-  </div>
+<div class="newAccountContainer inactive">
+  <form class="createNewAccountForm" (ngSubmit)="onSubmit(accountForm)" #accountForm="ngForm">
+    <h3>Add New Account</h3>
+    <b>{{ userName }}</b>
+    <input type="number" name="userId" class="newAccountItem" ngModel="{{ id }}" [readonly]="isReadOnly" #userId="ngModel" style="display: none;">
+    <select name="accountType" id="accountType" class="newAccountItem" ngModel #accountType="ngModel">
+      <option value="" selected>Choose Account Type...</option>
+      <option value="debit">Debit Account</option>
+      <option value="credit">Credit Account</option>
+    </select>
+    <input type="number" name="balance" id="balance" placeholder="Initial Balance" class="newAccountItem" ngModel #balance="ngModel" />
+    <button type="submit" class="newAccountItem">Create</button>
+  </form>
+</div>
 
-  <div class="main-container">
-    <h1 class="main-title">Home</h1>
+<div class="main-container">
+  <h1 class="main-title">Home</h1>
 
-    <div class="grid-container">
-      <!-- Sección: Mis Cuentas -->
-      <section class="accounts-section">
-        <h2 class="section-title">My accounts</h2>
-        <button id="createNewAccount" onclick="action()">Add new Account</button>
-        <div class="card" *ngFor="let item of accounts">
+  <div class="grid-container">
+    <!-- Sección: Mis Cuentas -->
+    <section class="accounts-section">
+      <h2 class="section-title">My accounts</h2>
+      <button id="createNewAccount" onclick="action()">Add new Account</button>
+      @for (item of accounts; track item) {
+        <div class="card">
           <div class="account-item">
             <div class="details">
               <p>Balance in hand</p>
@@ -120,63 +121,64 @@
             </div>
           </div>
         </div>
-      </section>
+      }
+    </section>
 
-      <!-- Sección: Acciones -->
-      <section>
-        <h2 class="section-title">Actions</h2>
-        <div class="actions-grid">
-          <a class="action-button" href="session/transfers">Make a transfer</a>
-          <button class="action-button">Make a deposit</button>
-          <button class="action-button">Withdraw money</button>
-          <button class="action-button">Make a deposit</button>
-        </div>
-      </section>
+    <!-- Sección: Acciones -->
+    <section>
+      <h2 class="section-title">Actions</h2>
+      <div class="actions-grid">
+        <a class="action-button" href="session/transfers">Make a transfer</a>
+        <button class="action-button">Make a deposit</button>
+        <button class="action-button">Withdraw money</button>
+        <button class="action-button">Make a deposit</button>
+      </div>
+    </section>
 
-      <!-- Sección: Para Ti -->
-      <section class="for-you-section">
-        <h2 class="section-title">For you</h2>
-        <div class="for-you-card">
-          <div class="content">
-            <h3>Financial advice</h3>
-            <p>Save at least 10% of your income each month to build an emergency fund</p>
-            <div class="button-group">
-              <button>Lear more</button>
-              <button class="gemini-button">More advices</button>
-            </div>
-          </div>
-          <img src="https://cdn-icons-png.flaticon.com/512/190/190411.png" alt="Decoración de Foco">
-        </div>
-      </section>
-
-      <!-- Sección: Actividad Reciente -->
-      <section class="recent-activity-section">
-        <h2 class="section-title">Recent activity</h2>
-        <div class="activity-list">
-          <div class="activity-item">
-            <div class="details">
-              <p>Nominal deposit</p>
-              <p>05/09/2025</p>
-            </div>
-            <div class="amount income">+ $10,000</div>
-          </div>
-          <div class="activity-item">
-            <div class="details">
-              <p>Electricity bill</p>
-              <p>03/09/2025</p>
-            </div>
-            <div class="amount payment">- $500</div>
-          </div>
-          <div class="activity-item">
-            <div class="details">
-              <p>Supermarket bill</p>
-              <p>01/09/2025</p>
-            </div>
-            <div class="amount payment">- $1,200</div>
+    <!-- Sección: Para Ti -->
+    <section class="for-you-section">
+      <h2 class="section-title">For you</h2>
+      <div class="for-you-card">
+        <div class="content">
+          <h3>Financial advice</h3>
+          <p>Save at least 10% of your income each month to build an emergency fund</p>
+          <div class="button-group">
+            <button>Lear more</button>
+            <button class="gemini-button">More advices</button>
           </div>
         </div>
-      </section>
-    </div>
+        <img src="https://cdn-icons-png.flaticon.com/512/190/190411.png" alt="Decoración de Foco">
+      </div>
+    </section>
+
+    <!-- Sección: Actividad Reciente -->
+    <section class="recent-activity-section">
+      <h2 class="section-title">Recent activity</h2>
+      <div class="activity-list">
+        <div class="activity-item">
+          <div class="details">
+            <p>Nominal deposit</p>
+            <p>05/09/2025</p>
+          </div>
+          <div class="amount income">+ $10,000</div>
+        </div>
+        <div class="activity-item">
+          <div class="details">
+            <p>Electricity bill</p>
+            <p>03/09/2025</p>
+          </div>
+          <div class="amount payment">- $500</div>
+        </div>
+        <div class="activity-item">
+          <div class="details">
+            <p>Supermarket bill</p>
+            <p>01/09/2025</p>
+          </div>
+          <div class="amount payment">- $1,200</div>
+        </div>
+      </div>
+    </section>
   </div>
+</div>
 </body>
 </html>

@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -6,7 +6,7 @@ import { ApiService } from '../services/api.service';
 
 @Component({
   selector: 'app-recovery',
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule],
   templateUrl: './recovery.html',
   styleUrl: './recovery.css'
 })
