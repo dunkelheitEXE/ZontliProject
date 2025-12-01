@@ -12,7 +12,7 @@ require("dotenv").config({path: '../.env'});
 const JWT_SECRET = process.env.JWT_SECRET || 'fish-bash-kitty';
 
 // Middleware for parsing JSON request bodies
-app.use(cors({origin: "http://localhost:4200",  credentials: true}));
+app.use(cors({origin: ["http://localhost:8080", "http://localhost:4200"],  credentials: true}));
 app.use(express.json());
 
 // Authentication middleware
@@ -674,6 +674,21 @@ app.post('/api/login-admin', async (req, res) => {
         return res.status(500).json({
             'success': false,
             'message': 'Internal server error'
+        });
+    }
+});
+
+app.get('/api/listen', (req, res) => {
+    try {
+        console.log("OK");
+        res.status(201).json({
+            'success': true,
+            'message': "You are listening correctly server container"
+        });
+    } catch (er) {
+        res.status(401).json({
+            'success': false,
+            'message': "You are not listening correctly server container"
         });
     }
 });
