@@ -34,8 +34,18 @@ export class Dashboard implements OnInit {
     });
   }
 
-  updateAccount(id: number) {
-    
+  updateAccount(accountId: number, newStatus: boolean) {
+    console.log(accountId);
+    console.log(newStatus);
+    this.api.updateAccountStatus(accountId, newStatus).subscribe({
+      next: res => {
+        console.log(res);
+        window.location.reload();
+      },
+      error: er => {
+        console.error(er);
+      }
+    });
   }
 
   logout () {

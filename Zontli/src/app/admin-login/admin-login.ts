@@ -27,6 +27,11 @@ export class AdminLogin {
       error: (er) => {
         console.log("Internal server error");
         console.log(er);
+        if(er.status >= 400 && er.status < 500) {
+          alert("Credentials are wrong, please check it");
+        } else if (er.status >= 500 && er.status < 600) {
+          alert("Internal server Error, Please, come later and problem will be solved");
+        }
       }
     });
   }

@@ -70,8 +70,8 @@
             </div>
             <div class="pending-actions">
               <!-- <button class="btn btn-view">Ver detalles</button> -->
-              <button class="btn btn-approve">Aprobar</button>
-              <button class="btn btn-reject">Rechazar</button>
+              <button class="btn btn-approve" (click)="updateAccount(item.account_id, true)">Aprobar</button>
+              <button class="btn btn-reject" (click)="updateAccount(item.account_id, false)">Rechazar</button>
             </div>
           </div>
 

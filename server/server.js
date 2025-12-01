@@ -34,27 +34,52 @@ const authenticateToken = (req, res, next) => {
 };
 
 // Define your API routes
-app.get('/api/accounts/:user', async (req, res) => {
+app.get('/api/accounts/:user/:status', async (req, res) => {
     const userId = req.params.user;
-    const query = "SELECT * FROM accounts WHERE user_id = ?";
-    try {
-        const [rows, fields] = await database.execute(query, [userId]);
-        if(rows) {
-            res.status(201).json({
-                success: true,
-                message: rows
-            });
-        } else {
+    const status = req.params.status || "nor";
+    console.log(status);
+    if(status === "nor") {
+        const query = "SELECT * FROM accounts WHERE user_id = ?";
+        try {
+            const [rows, fields] = await database.execute(query, [userId]);
+            if(rows) {
+                res.status(201).json({
+                    success: true,
+                    message: rows
+                });
+            } else {
+                res.status(401).json({
+                    success: false,
+                    message: "Nothing to do"
+                });
+            }
+        } catch (error) {
             res.status(401).json({
                 success: false,
-                message: "Nothing to do"
+                message: "Something has gone wrong in server, it is not your fault"
             });
         }
-    } catch (error) {
-        res.status(401).json({
-            success: false,
-            message: "Something has gone wrong in server, it is not your fault"
-        });
+    } else {
+        const query = "SELECT * FROM accounts WHERE user_id = ? AND status = ?";
+        try {
+            const [rows, fields] = await database.execute(query, [userId, status]);
+            if(rows) {
+                res.status(201).json({
+                    success: true,
+                    message: rows
+                });
+            } else {
+                res.status(401).json({
+                    success: false,
+                    message: "Nothing to do"
+                });
+            }
+        } catch (error) {
+            res.status(401).json({
+                success: false,
+                message: "Something has gone wrong in server, it is not your fault"
+            });
+        }
     }
 });
 
@@ -608,6 +633,9 @@ app.post('/api/create-admin', async (req, res) => {
     }
 });
 
+// ----- ADMIN PANEL----
+// Function here are specially for admin, these only can be used by administrators
+
 app.post('/api/login-admin', async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -679,7 +707,7 @@ app.post('/api/login-admin', async (req, res) => {
 });
 
 app.get('/api/getAllAccounts', (req, res) => {
-    const query = "SELECT * FROM accounts LEFT JOIN user ON accounts.user_id = user.user_id";
+    const query = "SELECT * FROM accounts LEFT JOIN user ON accounts.user_id = user.user_id WHERE status = 0";
     try{
         database.query(query).then(result => {
             res.status(201).json({
@@ -699,6 +727,49 @@ app.get('/api/getAllAccounts', (req, res) => {
         res.status(505).json({
             'success': false,
             'message': "Internal server Error"
+        });
+    }
+});
+
+// ------ HERE WILL BE FUNCTIONS IN CHARGE OF SET UP OR REJECT USER ACCOUNT REQUESTS -------
+
+app.post('/api/admin/account-req', async (req, res) => {
+    const [accountId, newStatus] = req.body;
+
+    try {
+        if(!newStatus) {
+            const delQuery = "DELETE FROM accounts WHERE account_id = ?";
+            await database.query(delQuery, [accountId]).then(() => {
+                return res.status(202).json({
+                    'success': true,
+                    'message': "This account update has been rejected successfully"
+                });
+            }).catch(er => {
+                console.log(er);
+                return res.status(501).json({
+                    'success': false,
+                    'message': "Something has gone wrong"
+                });
+            });
+        }
+
+         await database.query("UPDATE accounts SET status = 1 WHERE account_id = ?", [accountId]).then(()=>{
+            return res.status(201).json({
+                'success': true,
+                'message': "Status updated successfully"
+            });
+        }).catch(err => {
+            console.log(err);
+            return res.status(501).json({
+                'success': false,
+                'message': "Something has gone wrong"
+            });
+        });
+    } catch (erno) {
+        console.log(erno);
+        res.status(504).json({
+            'success': false,
+            'message': "Fatal internal server error"
         });
     }
 });
