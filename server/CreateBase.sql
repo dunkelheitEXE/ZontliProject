@@ -1,7 +1,7 @@
 -- Active: 1764632240114@@127.0.0.1@3308@zontli
 CREATE DATABASE zontli;
 
-DROP DATABASE zontli;
+-- DROP DATABASE zontli;
 
 USE zontli;
 
