@@ -22,13 +22,14 @@ export class Transfers {
     // You also can copy and putting this in other components
     const userData = localStorage.getItem("currentUser");
     const data = userData ? JSON.parse(userData) : null;
-    const strId = JSON.stringify(data["user_id"]);
-    const userName = JSON.stringify(data["name"]);
+    const strId = JSON.stringify(data[0]["user_id"]);
+    const userName = JSON.stringify(data[0]["name"]);
     this.id = parseInt(strId) ?? 0;
+    console.log(this.id);
     this.userName = userName ?? null;
 
     // Getting accounts
-    this.apiService.getAccounts(this.id).subscribe(res => {
+    this.apiService.getAccounts(this.id, 1).subscribe(res => {
       console.log(res.message);
       this.accounts = res.message;
     })

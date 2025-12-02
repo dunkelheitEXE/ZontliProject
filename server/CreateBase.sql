@@ -50,7 +50,7 @@ CREATE TABLE accounts(
   status BOOLEAN NOT NULL DEFAULT FALSE,
   credit_limit DECIMAL(15,2),
   PRIMARY KEY(account_id),
-  FOREIGN KEY(user_id) REFERENCES user(user_id)
+  FOREIGN KEY(user_id) REFERENCES user(user_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE cards(
@@ -62,7 +62,7 @@ CREATE TABLE cards(
   nip DECIMAL(4,0) NOT NULL,
   is_digital BOOLEAN NOT NULL DEFAULT FALSE,
   PRIMARY KEY(card_id),
-  FOREIGN KEY(account_id) REFERENCES accounts(account_id)
+  FOREIGN KEY(account_id) REFERENCES accounts(account_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE contacts(
@@ -74,7 +74,7 @@ CREATE TABLE contacts(
   destination_clabe DECIMAL(18,0) NOT NULL,
   destination_bank VARCHAR(255) NOT NULL,
   PRIMARY KEY(contact_id),
-  FOREIGN KEY(user_id) REFERENCES user(user_id)
+  FOREIGN KEY(user_id) REFERENCES user(user_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE movements(
@@ -87,10 +87,11 @@ CREATE TABLE movements(
   movement_type ENUM('deposit','withdrawal','transfer','initial balance') NOT NULL,
   status BOOLEAN NOT NULL DEFAULT FALSE,
   PRIMARY KEY(movement_id),
-  FOREIGN KEY(source_account_id) REFERENCES accounts(account_id),
-  FOREIGN KEY(destination_account_id) REFERENCES accounts(account_id)
+  FOREIGN KEY(source_account_id) REFERENCES accounts(account_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY(destination_account_id) REFERENCES accounts(account_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+DROP Procedure `doTransfer`;
 
 DELIMITER $$
 CREATE PROCEDURE doTransfer(
@@ -102,6 +103,7 @@ CREATE PROCEDURE doTransfer(
 BEGIN
   DECLARE current_balance DECIMAL(10,2);
   DECLARE account_exists INT;
+  DECLARE destination_status TINYINT;
   
   DECLARE EXIT HANDLER FOR SQLEXCEPTION
   BEGIN
@@ -135,14 +137,19 @@ BEGIN
     SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Insufficient funds';
   END IF;
   
-  -- Check if destination account exists
-  SELECT COUNT(*) INTO account_exists
+  -- Check if destination account exists and is active
+  SELECT COUNT(*), COALESCE(MAX(status), 0)
+  INTO account_exists, destination_status
   FROM accounts 
   WHERE account_id = in_to
   FOR UPDATE;
   
   IF account_exists = 0 THEN
     SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Destination account does not exist';
+  END IF;
+  
+  IF destination_status = 0 THEN
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Destination account is inactive';
   END IF;
   
   -- Perform transfer

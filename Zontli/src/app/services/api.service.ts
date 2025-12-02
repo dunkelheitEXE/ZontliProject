@@ -52,8 +52,12 @@ export class ApiService {
     return this.http.get(`${this.apiUrl}/getAccount/${account}`);
   }
 
-  getAccounts(userId: any): Observable<any> {
-    return this.http.get(`${this.apiUrl}/accounts/${userId}`);
+  getAccounts(userId: any, status: any = "nor"): Observable<any> {
+    return this.http.get(`${this.apiUrl}/accounts/${userId}/${status}`);
+  }
+
+  getAllAccounts(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/getAllAccounts`);
   }
 
   getLastMovement(user: any): Observable<any> {
@@ -74,5 +78,9 @@ export class ApiService {
 
   resetPassword(token: any, password: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/resetPassword`, [token, password]);
+  }
+
+  updateAccountStatus(accountId: number, newStatus: boolean): Observable<any> {
+    return this.http.post(`${this.apiUrl}/admin/account-req`, [accountId, newStatus]);
   }
 }
