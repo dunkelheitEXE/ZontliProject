@@ -24,7 +24,7 @@ interface LoginResponse {
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:3000/api';
+  private apiUrl = 'http://35.95.122.172/api';
   private currentUserSubject = new BehaviorSubject<User | null>(null);
   public currentUser$ = this.currentUserSubject.asObservable();
 
@@ -49,7 +49,7 @@ export class AuthService {
             localStorage.setItem('authToken', response.token);
             localStorage.setItem('currentUser', JSON.stringify(response.user));
             this.currentUserSubject.next(response.user);
-            
+
             // Redirect to home page
             this.router.navigate(['/session']);
           }
@@ -62,7 +62,7 @@ export class AuthService {
     localStorage.removeItem('authToken');
     localStorage.removeItem('currentUser');
     this.currentUserSubject.next(null);
-    
+
     // Redirect to login page
     this.router.navigate(['']);
   }

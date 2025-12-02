@@ -23,7 +23,7 @@ interface AdminLoginResponse {
   providedIn: 'root'
 })
 export class AdminAuthService {
-  private apiUrl = 'http://localhost:3000/api';
+  private apiUrl = 'http://35.95.122.172:3000/api';
   private currentAdminSubject = new BehaviorSubject<Admin | null>(null);
   public currentAdmin$ = this.currentAdminSubject.asObservable();
 

@@ -12,7 +12,7 @@ require("dotenv").config({path: '../.env'});
 const JWT_SECRET = process.env.JWT_SECRET || 'fish-bash-kitty';
 
 // Middleware for parsing JSON request bodies
-app.use(cors({origin: ["http://localhost:8080", "http://localhost:4200"],  credentials: true}));
+app.use(cors({origin: "*",  credentials: true}));
 app.use(express.json());
 
 // Authentication middleware
