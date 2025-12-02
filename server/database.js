@@ -1,11 +1,11 @@
 const mariadb = require("mysql2");
 
 const DatabaseConnection = mariadb.createPool({
-    host: '127.0.0.1',
+    host: 'zontli-db',
     user: 'root',
     password: '123456789',
     database: 'zontli',
-    port: 3308,
+    port: 3306,
     waitForConnections: true,
     connectionLimit: 10,
 }).promise();

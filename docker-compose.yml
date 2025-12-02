@@ -1,0 +1,58 @@
+
+services:
+  # ---------------------------------
+  # 1. SERVICIO DE BASE DE DATOS (MariaDB)
+  # ---------------------------------
+  db:
+    image: mariadb:latest
+    container_name: zontli-db      # Nombre del host para la red interna
+    restart: always                # Si falla, se reinicia solo
+    environment:
+      MYSQL_ROOT_PASSWORD: '123456789'
+      MYSQL_DATABASE: 'zontli'
+    ports:
+      - "3308:3306"                # Externo (Tu PC):Interno (Docker)
+    # volumes:
+    #   - mysql_data:/var/lib/mysql  # Persistencia: Guarda los datos aunque borres el contenedor
+    networks:
+      - zontli-net
+
+  # ---------------------------------
+  # 2. SERVICIO BACKEND (Node.js)
+  # ---------------------------------
+  api:
+    container_name: server-zontli
+    build: ./server               # <--- RUTA a la carpeta de tu backend
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - DB_HOST=zontli-db          # Usa el nombre del servicio de arriba ('db' o 'container_name')
+      - DB_PORT=3306               # Puerto interno de la DB
+    depends_on:
+      - db                         # Espera a que la DB inicie antes de arrancar
+    networks:
+      - zontli-net
+
+  # ---------------------------------
+  # 3. SERVICIO FRONTEND (Angular/Nginx)
+  # ---------------------------------
+  web:
+    container_name: app-zontli
+    build: ./Zontli              # <--- RUTA a la carpeta de tu angular
+    restart: always
+    ports:
+      - "8080:80"                  # Accederás en http://localhost:8080
+    depends_on:
+      - api                        # Inicia después del backend
+    networks:
+      - zontli-net
+
+# Definición de volúmenes para que no pierdas tus datos
+# volumes:
+#   mysql_data:
+
+# Definición de la red para que se vean entre ellos
+networks:
+  zontli-net:
+    driver: bridge
